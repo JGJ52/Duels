@@ -1,0 +1,5 @@
+language: "en"
+languages:
+  en:
+    youAreNotAPlayer: "§cYou need to be a player to run this command."
+    noPlayer: "§c%player_name% is not online."
