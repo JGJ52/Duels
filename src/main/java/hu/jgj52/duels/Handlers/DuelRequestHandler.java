@@ -10,7 +10,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -23,10 +22,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DuelRequestHandler {
     public static boolean duelRequest(Player player, Player enemy) {
+        //todo: remove database entirely, store everything in config.yml because im lazy to make more files
         RuntimeVariables.duelRequests.put(player, enemy);
 
         Inventory gui = Bukkit.createInventory(new DuelRequestGUI(), 54, Replacer.playerName(MessageManager.getMessage("duelRequestGui.title"), enemy));
@@ -100,7 +101,14 @@ public class DuelRequestHandler {
 
             player.sendMessage(Replacer.playerName(MessageManager.getMessage("duelRequestSentMessage"), enemy));
 
-            //need to put this request somewhere here
+            Database.asnycPostgreSQL(Database.postgres.from("duels_players").eq("uuid", player.getUniqueId())).thenAccept(queryResult -> {
+                Map<String, Object> data = new HashMap<>();
+                data.put("rounds", queryResult.data.get(0).get("rounds"));
+                data.put("spectators", queryResult.data.get(0).get("spectators"));
+                data.put("kit", result.data.get(0).get("id"));
+                data.put("expire", System.currentTimeMillis() + Duels.plugin.getConfig().getLong("duelRequestExpire") * 1000L);
+                RuntimeVariables.sentDuelRequests.put(Map.of(player, enemy), data);
+            });
         });
     }
 }

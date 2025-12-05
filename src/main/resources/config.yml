@@ -5,6 +5,9 @@ language: "en"
 languages:
   en:
     youAreNotAPlayer: "§cYou need to be a player to run this command."
+    alreadySentDuelRequest: "§cYou already sent a duel request to %player_name%"
+    youAreInDuel: "§cYou can't run this command while you are in a duel."
+    enemyIsInDuel: "§c%player_name% is in a duel."
     noPlayer: "§c%player_name% is not online."
     duelRequestGui:
       title: "§6Send duel request to §7%player_name%"
