@@ -1,5 +1,16 @@
+defaultRounds: 1
+defautlSpectators: true
+
 language: "en"
 languages:
   en:
     youAreNotAPlayer: "§cYou need to be a player to run this command."
     noPlayer: "§c%player_name% is not online."
+    duelRequestGui:
+      title: "§6Send duel request to §7%player_name%"
+      glassName: " "
+      contentGlassName: " "
+      defaultRounds: "§fFirst To §6%value%"
+      defaultSpectators: "§fSpectators: §6%value%"
+    duelRequestAcceptButton: "[Accept]"
+    duelRequestAcceptButtonHover: "§aClick to accept!"

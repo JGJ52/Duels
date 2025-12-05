@@ -5,5 +5,3 @@ api-version: '1.21'
 authors: [ JGJ52 ]
 depend:
   - Database
-softdepend:
-  - Database

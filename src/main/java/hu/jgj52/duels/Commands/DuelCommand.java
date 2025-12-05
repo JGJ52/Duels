@@ -26,7 +26,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
 
         Player enemy = Bukkit.getPlayer(strings[0]);
         if (enemy == null) {
-            player.sendMessage(MessageManager.getMessage("noPlayer").replaceAll("%player_name%", strings[0]));
+            player.sendMessage(Replacer.playerName(MessageManager.getMessage("noPlayer"), strings[0]));
             return true;
         }
 
