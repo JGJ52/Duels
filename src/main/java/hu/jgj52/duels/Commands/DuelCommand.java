@@ -24,6 +24,11 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (strings.length < 1) {
+            player.sendMessage(MessageManager.getMessage("noArgs"));
+            return true;
+        }
+
         if (RuntimeVariables.isInDuel.get(player)) {
             player.sendMessage(MessageManager.getMessage("youAreInDuel"));
             return true;
