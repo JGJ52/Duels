@@ -67,8 +67,12 @@
             <url>https://repo.papermc.io/repository/maven-public/</url>
         </repository>
         <repository>
-            <id>jgj52-repo</id>
-            <url>https://maven.jgj52.hu/repository/maven-releases/</url>
+            <id>enginehub</id>
+            <url>https://maven.enginehub.org/repo/</url>
+        </repository>
+        <repository>
+            <id>sonatype</id>
+            <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
     </repositories>
 
@@ -80,9 +84,21 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>hu.jgj52</groupId>
-            <artifactId>database</artifactId>
-            <version>1.1</version>
+            <groupId>com.sk89q.worldedit</groupId>
+            <artifactId>worldedit-bukkit</artifactId>
+            <version>7.4.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sk89q.worldguard</groupId>
+            <artifactId>worldguard-bukkit</artifactId>
+            <version>7.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fastasyncworldedit</groupId>
+            <artifactId>FastAsyncWorldEdit-Bukkit</artifactId>
+            <version>2.13.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

@@ -1,5 +1,22 @@
 defaultRounds: 1
-defautlSpectators: true
+defaultSpectators: true
+spawn:
+  x: 0
+  y: 0
+  z: 0
+  world: "world"
+  yaw: 0
+  pitch: 0
+  gamemode: "ADVENTURE"
+arenasWorld:
+  gamerules:
+    doDaylightCycle: false
+    doWeatherCycle: false
+    announceAdvancements: false
+    doMobSpawning: false
+  time: 6000
+  storm: false
+  thundering: false
 
 language: "en"
 languages:
@@ -17,3 +34,5 @@ languages:
       defaultSpectators: "§fSpectators: §6%value%"
     duelRequestAcceptButton: "[Accept]"
     duelRequestAcceptButtonHover: "§aClick to accept!"
+data:
+  kits:

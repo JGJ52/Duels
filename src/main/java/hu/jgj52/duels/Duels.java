@@ -1,6 +1,10 @@
 package hu.jgj52.duels;
 
+import hu.jgj52.duels.Commands.AcceptDuelCommand;
 import hu.jgj52.duels.Commands.DuelCommand;
+import hu.jgj52.duels.Listeners.DuelRequestListener;
+import hu.jgj52.duels.Managers.ArenaManager;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Duels extends JavaPlugin {
@@ -16,6 +20,12 @@ public final class Duels extends JavaPlugin {
         saveConfig();
 
         getCommand("duel").setExecutor(new DuelCommand());
+        getCommand("acceptduel").setExecutor(new AcceptDuelCommand());
+
+        getServer().getPluginManager().registerEvents(new DuelRequestListener(), this);
+
+        ArenaManager arenaManager = new ArenaManager();
+        Bukkit.getScheduler().runTask(plugin, arenaManager::recreateWorld);
     }
 
     @Override

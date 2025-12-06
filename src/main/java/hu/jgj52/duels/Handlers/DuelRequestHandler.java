@@ -1,6 +1,5 @@
 package hu.jgj52.duels.Handlers;
 
-import hu.jgj52.database.Database;
 import hu.jgj52.duels.Duels;
 import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Managers.MessageManager;
@@ -25,9 +24,10 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.HashMap;
 import java.util.Map;
 
+import static hu.jgj52.duels.Duels.plugin;
+
 public class DuelRequestHandler {
     public static boolean duelRequest(Player player, Player enemy) {
-        //todo: remove database entirely, store everything in config.yml because im lazy to make more files
         RuntimeVariables.duelRequests.put(player, enemy);
 
         Inventory gui = Bukkit.createInventory(new DuelRequestGUI(), 54, Replacer.playerName(MessageManager.getMessage("duelRequestGui.title"), enemy));
@@ -49,66 +49,58 @@ public class DuelRequestHandler {
             }
         }
 
-        Database.asnycPostgreSQL(Database.postgres.from("duels_kits").order("id")).thenAccept(result -> {
-           int slot = 10;
-           for (Map<String, Object> kit : result.data) {
-               ItemStack icon = new ItemStack(Material.matchMaterial(kit.get("icon").toString()));
-               ItemMeta iconMeta = icon.getItemMeta();
-               iconMeta.setDisplayName(kit.get("name").toString());
-               iconMeta.getPersistentDataContainer().set(new NamespacedKey(Duels.plugin, "id"), PersistentDataType.INTEGER, Integer.valueOf(kit.get("id").toString()));
-               icon.setItemMeta(iconMeta);
-               gui.setItem(slot, icon);
-               if (slot == 16 || slot == 25 || slot == 34 || slot == 17 || slot == 26 || slot == 35 || slot == 44) {
-                   slot =+ 3;
-               } else {
-                   slot++;
-               }
-            }
-        });
+       int slot = 10;
+       for (Map<?, ?> kit : plugin.getConfig().getMapList("data.kits")) {
+           ItemStack icon = new ItemStack(Material.matchMaterial(kit.get("icon").toString()));
+           ItemMeta iconMeta = icon.getItemMeta();
+           iconMeta.setDisplayName(kit.get("name").toString());
+           iconMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER, Integer.valueOf(kit.get("id").toString()));
+           icon.setItemMeta(iconMeta);
+           gui.setItem(slot, icon);
+           if (slot == 16 || slot == 25 || slot == 34 || slot == 17 || slot == 26 || slot == 35 || slot == 44) {
+               slot =+ 3;
+           } else {
+               slot++;
+           }
+        }
 
-        Database.asnycPostgreSQL(Database.postgres.from("duels_players").eq("uuid", player.getUniqueId())).thenAccept(result -> {
-            ItemStack rounds = new ItemStack(Material.ENDER_EYE);
-            ItemMeta roundsMeta = rounds.getItemMeta();
-            roundsMeta.setDisplayName(Replacer.value(MessageManager.getMessage("duelRequestGui.roundsName"), result.data.get(0).get("rounds") == null ? String.valueOf(Duels.plugin.getConfig().getInt("defaultRounds")) : result.data.get(0).get("rounds").toString()));
-            rounds.setItemMeta(roundsMeta);
+        ItemStack rounds = new ItemStack(Material.ENDER_EYE);
+        ItemMeta roundsMeta = rounds.getItemMeta();
+        roundsMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.roundsName"));
+        rounds.setItemMeta(roundsMeta);
 
-            gui.setItem(4, rounds);
+        gui.setItem(4, rounds);
 
-            ItemStack spectate = new ItemStack(Material.TARGET);
-            ItemMeta spectateMeta = spectate.getItemMeta();
-            spectateMeta.setDisplayName(Replacer.value(MessageManager.getMessage("duelRequestGui.spectatorsName"), result.data.get(0).get("spectators") == null ? String.valueOf(Duels.plugin.getConfig().getBoolean("defaultSpectators")) : result.data.get(0).get("spctators").toString()));
-            spectate.setItemMeta(spectateMeta);
+        ItemStack spectate = new ItemStack(plugin.getConfig().getBoolean("data.players." + player.getUniqueId() + ".spectators") ? Material.LIME_STAINED_GLASS : Material.RED_STAINED_GLASS);
+        ItemMeta spectateMeta = spectate.getItemMeta();
+        spectateMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.spectatorsName"));
+        spectate.setItemMeta(spectateMeta);
 
-            gui.setItem(49, spectate);
-        });
+        gui.setItem(49, spectate);
 
         player.openInventory(gui);
 
         return true;
     }
     public static void sendDuelRequest(Player player, Player enemy, InventoryClickEvent event) {
-        Database.asnycPostgreSQL(Database.postgres.from("duels_kits").eq("id", event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(Duels.plugin, "id"), PersistentDataType.INTEGER))).thenAccept(result -> {
-            Component acceptButton = Component.text(MessageManager.getMessage("duelRequestAcceptButton"))
-                    .color(NamedTextColor.GREEN)
-                    .clickEvent(ClickEvent.runCommand("/acceptduel " + enemy.getName()))
-                    .hoverEvent(HoverEvent.showText(Component.text(MessageManager.getMessage("duelRequestAcceptButtonHover"))));
+        Component acceptButton = Component.text(MessageManager.getMessage("duelRequestAcceptButton"))
+                .color(NamedTextColor.GREEN)
+                .clickEvent(ClickEvent.runCommand("/acceptduel " + enemy.getName()))
+                .hoverEvent(HoverEvent.showText(Component.text(MessageManager.getMessage("duelRequestAcceptButtonHover"))));
 
-            MiniMessage mm = MiniMessage.miniMessage();
+        MiniMessage mm = MiniMessage.miniMessage();
 
-            Component message = mm.deserialize(MessageManager.getMessage("duelRequestMessage"), Placeholder.component("accept", acceptButton));
+        Component message = mm.deserialize(MessageManager.getMessage("duelRequestMessage"), Placeholder.component("accept", acceptButton));
 
-            enemy.sendMessage(message);
+        enemy.sendMessage(message);
 
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("duelRequestSentMessage"), enemy));
+        player.sendMessage(Replacer.playerName(MessageManager.getMessage("duelRequestSentMessage"), enemy));
 
-            Database.asnycPostgreSQL(Database.postgres.from("duels_players").eq("uuid", player.getUniqueId())).thenAccept(queryResult -> {
-                Map<String, Object> data = new HashMap<>();
-                data.put("rounds", queryResult.data.get(0).get("rounds"));
-                data.put("spectators", queryResult.data.get(0).get("spectators"));
-                data.put("kit", result.data.get(0).get("id"));
-                data.put("expire", System.currentTimeMillis() + Duels.plugin.getConfig().getLong("duelRequestExpire") * 1000L);
-                RuntimeVariables.sentDuelRequests.put(Map.of(player, enemy), data);
-            });
-        });
+        Map<String, Object> data = new HashMap<>();
+        data.put("rounds", plugin.getConfig().getInt("data.players." + player.getUniqueId() + ".rounds"));
+        data.put("spectators", plugin.getConfig().getBoolean("data.players." + player.getUniqueId() + ".spectators"));
+        data.put("kit", event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER));
+        data.put("expire", System.currentTimeMillis() + plugin.getConfig().getLong("duelRequestExpire") * 1000L);
+        RuntimeVariables.sentDuelRequests.put(Map.of(player, enemy), data);
     }
 }
