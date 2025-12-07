@@ -12,4 +12,5 @@ public class RuntimeVariables {
     public static Map<Map<Player, Player>, Map<String, Object>> sentDuelRequests = new HashMap<>();
     public static Map<Player, Boolean> isInDuel = new HashMap<>();
     public static List<Integer> usedArenas = new ArrayList<>();
+    public static List<Map<String, Object>> duels = new ArrayList<>();
 }

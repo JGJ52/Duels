@@ -51,7 +51,10 @@ public class AcceptDuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        return AcceptDuelHandler.acceptDuel(new Team(List.of(enemy)), new Team(List.of(player)), RuntimeVariables.sentDuelRequests.get(Map.of(enemy, player)));
+        Map<String, Object> duelDetails = RuntimeVariables.sentDuelRequests.get(Map.of(enemy, player));
+        RuntimeVariables.sentDuelRequests.remove(Map.of(enemy, player));
+
+        return AcceptDuelHandler.acceptDuel(new Team(List.of(enemy)), new Team(List.of(player)), duelDetails);
     }
 
     @Override

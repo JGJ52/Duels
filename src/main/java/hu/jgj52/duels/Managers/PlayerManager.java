@@ -26,7 +26,7 @@ public class PlayerManager {
         player.setFlying(false);
         player.setInvisible(false);
         player.setAllowFlight(false);
-        player.setInvulnerable(false);
+        player.setInvulnerable(true);
         player.setCollidable(true);
         player.setGameMode(GameMode.valueOf(plugin.getConfig().getString("spawn.gamemode")));
         player.getInventory().clear();

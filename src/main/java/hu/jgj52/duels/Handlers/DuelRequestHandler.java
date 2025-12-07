@@ -5,6 +5,7 @@ import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
+import hu.jgj52.duels.Utils.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
@@ -79,6 +80,7 @@ public class DuelRequestHandler {
         gui.setItem(49, spectate);
 
         player.openInventory(gui);
+        Sound.open(player);
 
         return true;
     }

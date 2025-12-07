@@ -16,12 +16,17 @@ public class Arena {
     private final Location loc;
     private final List<Region> regions = new ArrayList<>();
     private final int distance;
+    private final int cooldown;
 
-    public Arena (String kit, Location loc) {
+    public Arena (int kit, Location loc) {
         List<Integer> possible = plugin.getConfig().getIntegerList("data.kits." + kit + ".arenas");
         this.id = possible.get((int) (Math.random() * possible.size()));
 
         this.loc = loc;
+
+        this.distance = plugin.getConfig().getInt("data.arenas." + id + ".distance");
+
+        this.cooldown = plugin.getConfig().getInt("data.arenas." + id + ".cooldown");
 
         ConfigurationSection rgns = plugin.getConfig().getConfigurationSection("data.arenas." + id + ".regions");
         for (String rkey : rgns.getKeys(false)) {
@@ -46,8 +51,6 @@ public class Arena {
 
             regions.add(region);
         }
-
-        this.distance = plugin.getConfig().getInt("data.arenas." + id + ".distance");
     }
 
     public String getName() {
@@ -69,5 +72,9 @@ public class Arena {
 
     public int getDistance() {
         return distance;
+    }
+
+    public int getCooldown() {
+        return cooldown;
     }
 }
