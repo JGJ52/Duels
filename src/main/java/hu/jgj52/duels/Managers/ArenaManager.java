@@ -1,5 +1,6 @@
 package hu.jgj52.duels.Managers;
 
+import com.fastasyncworldedit.core.Fawe;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
@@ -18,7 +19,6 @@ import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
-import hu.jgj52.duels.Duels;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -106,17 +106,17 @@ public class ArenaManager {
         return directory.delete();
     }
 
-    public void placeArena(World world, int x, int y, int z, String schematicName, boolean air) {
+    public boolean placeArena(World world, int x, int y, int z, String schematicName, boolean shouldIgnoreAir) {
         File schematicFile = new File(plugin.getDataFolder() + File.separator + "schematics", schematicName + ".schem");
         if (!schematicFile.exists()) {
             plugin.getLogger().warning("Schematic file not found: " + schematicFile.getAbsolutePath());
-            return;
+            return false;
         }
 
         ClipboardFormat format = ClipboardFormats.findByFile(schematicFile);
         if (format == null) {
             plugin.getLogger().warning("Unknown schematic format for file: " + schematicFile.getAbsolutePath());
-            return;
+            return false;
         }
 
         Clipboard clipboard;
@@ -126,26 +126,26 @@ public class ArenaManager {
         } catch (IOException e) {
             plugin.getLogger().severe("Error reading schematic file: " + e.getMessage());
             e.printStackTrace();
-            return;
+            return false;
         }
 
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            try {
-                com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
-                try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
-                    Operation operation = new ClipboardHolder(clipboard)
-                            .createPaste(editSession)
-                            .to(BlockVector3.at(x, y, z))
-                            .ignoreAirBlocks(air)
-                            .build();
-                    Operations.complete(operation);
-                    editSession.flushSession();
-                }
-            } catch (Exception e) {
-                plugin.getLogger().severe("Error placing schematic: " + e.getMessage());
-                e.printStackTrace();
+        try {
+            com.sk89q.worldedit.world.World weWorld = BukkitAdapter.adapt(world);
+            try (EditSession editSession = WorldEdit.getInstance().newEditSession(weWorld)) {
+                Operation operation = new ClipboardHolder(clipboard)
+                        .createPaste(editSession)
+                        .to(BlockVector3.at(x, y, z))
+                        .ignoreAirBlocks(shouldIgnoreAir)
+                        .build();
+                Operations.complete(operation);
+                editSession.flushSession();
+                return true;
             }
-        });
+        } catch (Exception e) {
+            plugin.getLogger().severe("Error placing schematic: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return false;
     }
 
 

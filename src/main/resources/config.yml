@@ -37,3 +37,5 @@ languages:
     duelRequestAcceptButtonHover: "§aClick to accept!"
 data:
   kits:
+  players:
+  arenas:

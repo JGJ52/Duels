@@ -1,4 +1,4 @@
-package hu.jgj52.duels.Utils;
+package hu.jgj52.duels.Types;
 
 import org.bukkit.entity.Player;
 

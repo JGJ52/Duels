@@ -4,7 +4,7 @@ import hu.jgj52.duels.Handlers.AcceptDuelHandler;
 import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
-import hu.jgj52.duels.Utils.Team;
+import hu.jgj52.duels.Types.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,7 +51,7 @@ public class AcceptDuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        return AcceptDuelHandler.acceptDuel(new Team(List.of(enemy)), new Team(List.of(player)));
+        return AcceptDuelHandler.acceptDuel(new Team(List.of(enemy)), new Team(List.of(player)), RuntimeVariables.sentDuelRequests.get(Map.of(enemy, player)));
     }
 
     @Override
