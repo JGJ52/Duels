@@ -2,6 +2,7 @@ package hu.jgj52.duels;
 
 import hu.jgj52.duels.Commands.AcceptDuelCommand;
 import hu.jgj52.duels.Commands.DuelCommand;
+import hu.jgj52.duels.Commands.KitCommand;
 import hu.jgj52.duels.Listeners.DuelRequestListener;
 import hu.jgj52.duels.Managers.ArenaManager;
 import org.bukkit.Bukkit;
@@ -21,6 +22,7 @@ public final class Duels extends JavaPlugin {
 
         getCommand("duel").setExecutor(new DuelCommand());
         getCommand("acceptduel").setExecutor(new AcceptDuelCommand());
+        getCommand("kit").setExecutor(new KitCommand());
 
         getServer().getPluginManager().registerEvents(new DuelRequestListener(), this);
 

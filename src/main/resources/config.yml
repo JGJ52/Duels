@@ -22,6 +22,8 @@ languages:
   en:
     youAreNotAPlayer: "§cYou need to be a player to run this command."
     noArgs: "§cNot enough args!"
+    badArgs: "§cBad args!"
+    noPerm: "§cYou don't have permission to run this command."
     alreadySentDuelRequest: "§cYou already sent a duel request to %player_name%"
     youAreInDuel: "§cYou can't run this command while you are in a duel."
     enemyIsInDuel: "§c%player_name% is in a duel."
@@ -31,10 +33,17 @@ languages:
       title: "§6Send duel request to §7%player_name%"
       glassName: " "
       contentGlassName: " "
-      defaultRounds: "§fFirst To §6%value%"
-      defaultSpectators: "§fSpectators: §6%value%"
+      roundsName: "§fFirst to"
+      spectatorsName: "§fEnable spectators"
     duelRequestAcceptButton: "[Accept]"
     duelRequestAcceptButtonHover: "§aClick to accept!"
+    duelStart:
+      countback: "§e%value%" # value = time left until start
+      started: "§aBattle!"
+    kit:
+      created: "§aKit successfully created: %value%" # value = kit's name
+      loaded: "§aKit loaded successfully: %value%" # value = kit's name
+      deleted: "§aKit successfully deleted: %value%" # value = kit's name
 data:
   kits:
   players:

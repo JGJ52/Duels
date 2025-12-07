@@ -18,13 +18,13 @@ import java.util.Map;
 
 public class DuelCommand implements CommandExecutor, TabCompleter {
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        if (!(commandSender instanceof Player player)) {
-            commandSender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
             return true;
         }
 
-        if (strings.length < 1) {
+        if (args.length < 1) {
             player.sendMessage(MessageManager.getMessage("noArgs"));
             return true;
         }
@@ -34,9 +34,9 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        Player enemy = Bukkit.getPlayer(strings[0]);
+        Player enemy = Bukkit.getPlayer(args[0]);
         if (enemy == null) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("noPlayer"), strings[0]));
+            player.sendMessage(Replacer.playerName(MessageManager.getMessage("noPlayer"), args[0]));
             return true;
         }
 
@@ -54,8 +54,8 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
     }
 
     @Override
-    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] strings) {
-        if (strings.length == 1) {
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
+        if (args.length == 1) {
             return null;
         }
         return List.of();

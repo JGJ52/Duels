@@ -8,3 +8,5 @@ commands:
     permission: duels.command.duel
   acceptduel:
     permission: duels.command.acceptduel
+  kit:
+    permission: duels.command.kit

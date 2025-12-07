@@ -1,7 +1,10 @@
 package hu.jgj52.duels.Handlers;
 
+import com.mojang.brigadier.Message;
+import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Types.Arena;
 import hu.jgj52.duels.Types.Kit;
+import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import hu.jgj52.duels.Utils.Sound;
 import org.bukkit.Bukkit;
@@ -100,7 +103,7 @@ public class AcceptDuelHandler {
                 public void run() {
                     if (time > 0) {
                         for (Player p : allPlayers) {
-                            p.sendTitle("§e" + time, "", 0, 20, 0);
+                            p.sendTitle(Replacer.value(MessageManager.getMessage("duelStart.countback"), String.valueOf(time)), "", 0, 20, 0);
                             Sound.wait(p);
                         }
                         time--;
@@ -108,7 +111,7 @@ public class AcceptDuelHandler {
                     }
 
                     for (Player p : allPlayers) {
-                        p.sendTitle("§aStart!", "", 0, 20, 0);
+                        p.sendTitle(MessageManager.getMessage("duelStart.started"), "", 0, 20, 0);
                         p.setInvulnerable(false);
                         Sound.done(p);
                     }
