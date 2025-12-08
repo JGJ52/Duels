@@ -29,6 +29,8 @@ languages:
     enemyIsInDuel: "§c%player_name% is in a duel."
     noDuelRequest: "§C%player_name% didn't send you any duel requests."
     noPlayer: "§c%player_name% is not online."
+    duelRequestMessage: "<gold>%player_name% sent you a duel request!\nClick here to accept it: <accept>"
+    duelRequestSentMessage: "§aDuel successfully sent to %player_name%!"
     cantDuelYourself: "§cYou can't send duel to yourself!"
     duelRequestGui:
       title: "§6Send duel request to §7%player_name%"

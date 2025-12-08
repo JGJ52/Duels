@@ -30,7 +30,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             switch (args[0]) {
                 case "create":
                     if (player.hasPermission("duels.command.kit.create")) {
-                        if (args.length > 2) {
+                        if (args.length > 3) {
                             List<Integer> ids = new ArrayList<>();
                             ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
                             if (section == null) return false;
@@ -42,6 +42,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                             plugin.getConfig().set("data.kits." + id + ".content", player.getInventory().getContents());
                             plugin.getConfig().set("data.kits." + id + ".name", args[1]);
                             plugin.getConfig().set("data.kits." + id + ".maxHealth", Integer.parseInt(args[2]));
+                            plugin.getConfig().set("data.kits." + id + ".icon", args[3]);
                             plugin.saveConfig();
                             plugin.reloadConfig();
                             player.sendMessage(Replacer.value(MessageManager.getMessage("kit.created"), args[1]));
@@ -76,24 +77,56 @@ public class KitCommand implements CommandExecutor, TabCompleter {
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (args.length == 1) {
-            return List.of("create", "load", "delete");
-        } else if (args.length == 2) {
-            ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
-            if (section == null) return List.of();
             List<String> complete = new ArrayList<>();
-            for (String key : section.getKeys(false)) {
-                complete.add(plugin.getConfig().getString("data.kits." + key + ".name"));
+            if (sender.hasPermission("duels.command.kit.create")) complete.add("create");
+            if (sender.hasPermission("duels.command.kit.load")) complete.add("load");
+            if (sender.hasPermission("duels.command.kit.delete")) complete.add("delete");
+            return complete;
+        } else if (args.length == 2) {
+            switch (args[0]) {
+                case "create":
+                    if (sender.hasPermission("duels.command.kit.create")) return List.of("<kitName>"); else return List.of();
+                case "load":
+                    if (sender.hasPermission("duels.command.kit.load")) {
+                        ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
+                        if (section == null) return List.of();
+                        List<String> complete = new ArrayList<>();
+                        for (String key : section.getKeys(false)) {
+                            complete.add(plugin.getConfig().getString("data.kits." + key + ".name"));
+                        }
+                        return complete;
+                    } else return List.of();
+                case "delete":
+                    if (sender.hasPermission("duels.command.kit.delete")) {
+                        ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
+                        if (section == null) return List.of();
+                        List<String> complete = new ArrayList<>();
+                        for (String key : section.getKeys(false)) {
+                            complete.add(plugin.getConfig().getString("data.kits." + key + ".name"));
+                        }
+                        return complete;
+                    } else return List.of();
+                default:
+                    return List.of();
             }
-            return switch (args[0]) {
-                case "create" -> List.of("<kitName>");
-                case "load", "delete" -> complete;
-                default -> List.of();
-            };
         } else if (args.length == 3) {
-            return switch (args[0]) {
-                case "create" -> List.of("<maxHealth>");
-                default -> List.of();
-            };
+            switch (args[0]) {
+                case "create":
+                    if (sender.hasPermission("duels.command.kit.create")) {
+                        return List.of("<maxHealth>");
+                    }
+                default:
+                    return List.of();
+            }
+        } else if (args.length == 4) {
+            switch (args[0]) {
+                case "create":
+                    if (sender.hasPermission("duels.command.kit.create")) {
+                        return List.of("<icon>");
+                    }
+                default:
+                    return List.of();
+            }
         }
         return List.of();
     }

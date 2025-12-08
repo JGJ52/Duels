@@ -1,6 +1,10 @@
 package hu.jgj52.duels.Types;
 
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 import org.checkerframework.common.returnsreceiver.qual.This;
 
 import java.util.List;
@@ -12,6 +16,7 @@ public class Kit {
     private final int id;
     private final double maxHealth;
     private final String name;
+    private final ItemStack icon;
 
     public Kit (int id) {
         this.id = id;
@@ -22,6 +27,13 @@ public class Kit {
         this.maxHealth = plugin.getConfig().getDouble("data.kits." + id + ".maxHealth");
 
         this.name = plugin.getConfig().getString("data.kits." + id + ".name");
+
+        ItemStack icon = new ItemStack(Material.matchMaterial(plugin.getConfig().getString("data.kits." + id + ".icon")));
+        ItemMeta iconMeta = icon.getItemMeta();
+        iconMeta.setDisplayName("§f" + this.name);
+        iconMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER, this.id);
+        icon.setItemMeta(iconMeta);
+        this.icon = icon;
     }
 
     public Kit (String name) {
@@ -55,5 +67,9 @@ public class Kit {
         plugin.getConfig().set("data.kits." + id, null);
         plugin.saveConfig();
         plugin.reloadConfig();
+    }
+
+    public ItemStack getIcon() {
+        return icon;
     }
 }

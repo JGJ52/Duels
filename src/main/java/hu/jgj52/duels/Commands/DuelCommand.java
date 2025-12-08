@@ -46,12 +46,12 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
         }
 
         if (RuntimeVariables.sentDuelRequests.get(Map.of(player, enemy)) != null) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("alreadySentDuelRequest"), player));
+            player.sendMessage(Replacer.playerName(MessageManager.getMessage("alreadySentDuelRequest"), enemy));
             return true;
         }
 
         if (RuntimeVariables.isInDuel.getOrDefault(enemy, false)) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("enemyIsInDuel"), player));
+            player.sendMessage(Replacer.playerName(MessageManager.getMessage("enemyIsInDuel"), enemy));
             return true;
         }
 

@@ -3,6 +3,7 @@ package hu.jgj52.duels.Handlers;
 import hu.jgj52.duels.Duels;
 import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import hu.jgj52.duels.Utils.Sound;
@@ -15,6 +16,7 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -51,20 +53,17 @@ public class DuelRequestHandler {
             }
         }
 
-       int slot = 10;
-       for (Map<?, ?> kit : plugin.getConfig().getMapList("data.kits")) {
-           //todo: fix this, because this is not working
-           ItemStack icon = new ItemStack(Material.matchMaterial(kit.get("icon").toString()));
-           ItemMeta iconMeta = icon.getItemMeta();
-           iconMeta.setDisplayName(kit.get("name").toString());
-           iconMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER, Integer.valueOf(kit.get("id").toString()));
-           icon.setItemMeta(iconMeta);
-           gui.setItem(slot, icon);
-           if (slot == 16 || slot == 25 || slot == 34 || slot == 17 || slot == 26 || slot == 35 || slot == 44) {
+        int slot = 10;
+        ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
+        if (section == null) return false;
+        for (String key : section.getKeys(false)) {
+            Kit kit = new Kit(Integer.parseInt(key));
+            gui.setItem(slot, kit.getIcon());
+            if (slot == 16 || slot == 25 || slot == 34 || slot == 17 || slot == 26 || slot == 35 || slot == 44) {
                slot += 3;
-           } else {
+            } else {
                slot++;
-           }
+            }
         }
 
         ItemStack rounds = new ItemStack(Material.ENDER_EYE);
@@ -90,12 +89,12 @@ public class DuelRequestHandler {
     public static void sendDuelRequest(Player player, Player enemy, InventoryClickEvent event) {
         Component acceptButton = Component.text(MessageManager.getMessage("duelRequestAcceptButton"))
                 .color(NamedTextColor.GREEN)
-                .clickEvent(ClickEvent.runCommand("/acceptduel " + enemy.getName()))
+                .clickEvent(ClickEvent.runCommand("/acceptduel " + player.getName()))
                 .hoverEvent(HoverEvent.showText(Component.text(MessageManager.getMessage("duelRequestAcceptButtonHover"))));
 
         MiniMessage mm = MiniMessage.miniMessage();
 
-        Component message = mm.deserialize(MessageManager.getMessage("duelRequestMessage"), Placeholder.component("accept", acceptButton));
+        Component message = mm.deserialize(Replacer.playerName(MessageManager.getMessage("duelRequestMessage"), player), Placeholder.component("accept", acceptButton));
 
         enemy.sendMessage(message);
 

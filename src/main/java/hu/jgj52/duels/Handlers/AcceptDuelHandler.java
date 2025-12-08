@@ -33,6 +33,7 @@ public class AcceptDuelHandler {
         int z = RuntimeVariables.usedArenas.isEmpty() ? 0 : min(RuntimeVariables.usedArenas) - 1000;
         RuntimeVariables.usedArenas.add(z);
         World arenas = Bukkit.getWorld("arenas");
+        //todo: this will not work until i make it possible to make arenas, and define them in kit create (yeah im gonna be lazy and not make a gui for it.)
 
         Kit kit = new Kit(Integer.parseInt(duelDetails.get("kit").toString()));
 
