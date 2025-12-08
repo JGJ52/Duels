@@ -54,5 +54,6 @@ public class Kit {
     public void delete() {
         plugin.getConfig().set("data.kits." + id, null);
         plugin.saveConfig();
+        plugin.reloadConfig();
     }
 }

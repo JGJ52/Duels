@@ -1,6 +1,5 @@
 package hu.jgj52.duels.Managers;
 
-import com.fastasyncworldedit.core.Fawe;
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;

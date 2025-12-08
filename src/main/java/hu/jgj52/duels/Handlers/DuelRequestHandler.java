@@ -41,6 +41,7 @@ public class DuelRequestHandler {
         ItemStack content = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta contentMeta = content.getItemMeta();
         contentMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.contentGlassName"));
+        content.setItemMeta(contentMeta);
 
         for (int i = 0; i < 54; i++) {
             if ((i >= 10 && i <= 16) || (i >= 19 && i <= 25) || (i >= 28 && i <= 34) || (i >= 37 && i <= 43)) {
@@ -52,6 +53,7 @@ public class DuelRequestHandler {
 
        int slot = 10;
        for (Map<?, ?> kit : plugin.getConfig().getMapList("data.kits")) {
+           //todo: fix this, because this is not working
            ItemStack icon = new ItemStack(Material.matchMaterial(kit.get("icon").toString()));
            ItemMeta iconMeta = icon.getItemMeta();
            iconMeta.setDisplayName(kit.get("name").toString());
@@ -59,20 +61,21 @@ public class DuelRequestHandler {
            icon.setItemMeta(iconMeta);
            gui.setItem(slot, icon);
            if (slot == 16 || slot == 25 || slot == 34 || slot == 17 || slot == 26 || slot == 35 || slot == 44) {
-               slot =+ 3;
+               slot += 3;
            } else {
                slot++;
            }
         }
 
         ItemStack rounds = new ItemStack(Material.ENDER_EYE);
+        rounds.setAmount(plugin.getConfig().getInt("data.players." + player.getUniqueId() + ".rounds", 1));
         ItemMeta roundsMeta = rounds.getItemMeta();
         roundsMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.roundsName"));
         rounds.setItemMeta(roundsMeta);
 
         gui.setItem(4, rounds);
 
-        ItemStack spectate = new ItemStack(plugin.getConfig().getBoolean("data.players." + player.getUniqueId() + ".spectators") ? Material.LIME_STAINED_GLASS : Material.RED_STAINED_GLASS);
+        ItemStack spectate = new ItemStack(plugin.getConfig().getBoolean("data.players." + player.getUniqueId() + ".spectators", true) ? Material.LIME_STAINED_GLASS : Material.RED_STAINED_GLASS);
         ItemMeta spectateMeta = spectate.getItemMeta();
         spectateMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.spectatorsName"));
         spectate.setItemMeta(spectateMeta);

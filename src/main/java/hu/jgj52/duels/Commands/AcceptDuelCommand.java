@@ -36,12 +36,12 @@ public class AcceptDuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.get(player)) {
+        if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
             player.sendMessage(MessageManager.getMessage("youAreInDuel"));
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.get(enemy)) {
+        if (RuntimeVariables.isInDuel.getOrDefault(enemy, false)) {
             player.sendMessage(Replacer.playerName(MessageManager.getMessage("enemyIsInDuel"), player));
             return true;
         }

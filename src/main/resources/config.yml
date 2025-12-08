@@ -29,6 +29,7 @@ languages:
     enemyIsInDuel: "§c%player_name% is in a duel."
     noDuelRequest: "§C%player_name% didn't send you any duel requests."
     noPlayer: "§c%player_name% is not online."
+    cantDuelYourself: "§cYou can't send duel to yourself!"
     duelRequestGui:
       title: "§6Send duel request to §7%player_name%"
       glassName: " "
@@ -45,6 +46,6 @@ languages:
       loaded: "§aKit loaded successfully: %value%" # value = kit's name
       deleted: "§aKit successfully deleted: %value%" # value = kit's name
 data:
-  kits:
-  players:
-  arenas:
+  kits: {}
+  players: {}
+  arenas: {}

@@ -3,6 +3,9 @@ version: '1.0'
 main: hu.jgj52.duels.Duels
 api-version: '1.21'
 authors: [ JGJ52 ]
+depend:
+  - WorldEdit
+  - WorldGuard
 commands:
   duel:
     permission: duels.command.duel

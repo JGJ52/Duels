@@ -29,7 +29,7 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.get(player)) {
+        if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
             player.sendMessage(MessageManager.getMessage("youAreInDuel"));
             return true;
         }
@@ -40,12 +40,17 @@ public class DuelCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (player == enemy) {
+            player.sendMessage(MessageManager.getMessage("cantDuelYourself"));
+            return true;
+        }
+
         if (RuntimeVariables.sentDuelRequests.get(Map.of(player, enemy)) != null) {
             player.sendMessage(Replacer.playerName(MessageManager.getMessage("alreadySentDuelRequest"), player));
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.get(enemy)) {
+        if (RuntimeVariables.isInDuel.getOrDefault(enemy, false)) {
             player.sendMessage(Replacer.playerName(MessageManager.getMessage("enemyIsInDuel"), player));
             return true;
         }
