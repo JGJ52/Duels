@@ -46,8 +46,9 @@ public class ArenaCommand implements CommandExecutor, TabCompleter {
                                 File file = new File(folder, name.toLowerCase() + ".schem");
                                 ClipboardHolder clipboard = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player)).getClipboard();
                                 try (FileOutputStream fos = new FileOutputStream(file)) {
-                                    ClipboardWriter writer = ClipboardFormats.findByFile(file).getWriter(fos);
+                                    ClipboardWriter writer = ClipboardFormats.findByAlias("schem").getWriter(fos);
                                     writer.write(clipboard.getClipboard());
+                                    writer.close();
                                     List<Integer> ids = new ArrayList<>();
                                     ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.arenas");
                                     for (String key : section.getKeys(false)) {
@@ -56,6 +57,8 @@ public class ArenaCommand implements CommandExecutor, TabCompleter {
                                     int id;
                                     if (ids.isEmpty()) id = 1; else id = Collections.max(ids) + 1;
                                     plugin.getConfig().set("data.arenas." + id + ".name", name.toLowerCase());
+                                    plugin.saveConfig();
+                                    plugin.reloadConfig();
                                     player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.success"), name));
                                 } catch (IOException e) {
                                     player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.failed"), name));
@@ -65,7 +68,7 @@ public class ArenaCommand implements CommandExecutor, TabCompleter {
                                 player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.failed"), name));
                                 throw new RuntimeException(e);
                             }
-                        } else player.sendMessage("noArgs");
+                        } else player.sendMessage(MessageManager.getMessage("noArgs"));
                     } else player.sendMessage(MessageManager.getMessage("noPerm"));
                     break;
                 default:
@@ -77,6 +80,18 @@ public class ArenaCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
+        if (args.length == 1) {
+            List<String> complete = new ArrayList<>();
+            if (sender.hasPermission("duels.command.arena.create")) complete.add("create");
+            return complete;
+        } else if (args.length == 2) {
+            switch (args[1]) {
+                case "create":
+                    if (sender.hasPermission("duels.command.arena.create")) return List.of("<arenaName>"); else return List.of();
+                default:
+                    return List.of();
+            }
+        }
         return List.of();
     }
 }

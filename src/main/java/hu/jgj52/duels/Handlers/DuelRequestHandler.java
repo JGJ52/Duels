@@ -31,9 +31,7 @@ import static hu.jgj52.duels.Duels.plugin;
 
 public class DuelRequestHandler {
     public static boolean duelRequest(Player player, Player enemy) {
-        RuntimeVariables.duelRequests.put(player, enemy);
-
-        Inventory gui = Bukkit.createInventory(new DuelRequestGUI(), 54, Replacer.playerName(MessageManager.getMessage("duelRequestGui.title"), enemy));
+        Inventory gui = Bukkit.createInventory(new DuelRequestGUI(player, enemy), 54, Replacer.playerName(MessageManager.getMessage("duelRequestGui.title"), enemy));
 
         ItemStack glass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();

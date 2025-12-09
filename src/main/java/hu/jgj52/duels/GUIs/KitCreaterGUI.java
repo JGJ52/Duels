@@ -16,11 +16,19 @@ public class KitCreaterGUI implements InventoryHolder {
     String name;
     int id;
     ItemStack[] content;
+    List<Integer> arenas = null;
     public KitCreaterGUI (String kitName, int kitId, ItemStack[] kitContent) {
         Collections.addAll(possible, Material.values());
         name = kitName;
         id = kitId;
         content = kitContent;
+    }
+    public KitCreaterGUI (String kitName, int kitId, ItemStack[] kitContent, List<Integer> arenas) {
+        Collections.addAll(possible, Material.values());
+        name = kitName;
+        id = kitId;
+        content = kitContent;
+        this.arenas = arenas;
     }
     @Override
     public @NotNull Inventory getInventory() {
@@ -43,5 +51,8 @@ public class KitCreaterGUI implements InventoryHolder {
     }
     public ItemStack[] getKitContent() {
         return content;
+    }
+    public List<Integer> getArenas() {
+        return arenas;
     }
 }

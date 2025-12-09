@@ -55,6 +55,8 @@ languages:
         iconName: "§fThe item displayed at the duel menu for the kit"
         arenasName: "§fSelect witch arenas should the duel be in"
         saveName: "§aSave kit"
+        arenaPickerGui:
+          title: "Pick arena for %value%" # value = kit's name
     arena:
       create:
         success: "§aArena saved successfully!" # value = arena's name

@@ -151,24 +151,6 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                 default:
                     return List.of();
             }
-        } else if (args.length == 3) {
-            switch (args[0]) {
-                case "create":
-                    if (sender.hasPermission("duels.command.kit.create")) {
-                        return List.of("<maxHealth>");
-                    }
-                default:
-                    return List.of();
-            }
-        } else if (args.length == 4) {
-            switch (args[0]) {
-                case "create":
-                    if (sender.hasPermission("duels.command.kit.create")) {
-                        return List.of("<icon>");
-                    }
-                default:
-                    return List.of();
-            }
         }
         return List.of();
     }
