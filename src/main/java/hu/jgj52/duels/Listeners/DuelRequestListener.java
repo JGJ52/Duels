@@ -18,8 +18,9 @@ public class DuelRequestListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (event.getClickedInventory() == null) return;
 
-        if (event.getInventory().getHolder() instanceof DuelRequestGUI) {
+        if (event.getClickedInventory().getHolder() instanceof DuelRequestGUI) {
             event.setCancelled(true);
             if (event.getCurrentItem() == null) return;
             if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) return;

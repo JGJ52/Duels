@@ -13,3 +13,5 @@ commands:
     permission: duels.command.acceptduel
   kit:
     permission: duels.command.kit
+  arena:
+    permission: duels.command.arena

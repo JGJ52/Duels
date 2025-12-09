@@ -1,14 +1,20 @@
 package hu.jgj52.duels.Commands;
 
+import hu.jgj52.duels.GUIs.KitCreaterGUI;
 import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +36,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             switch (args[0]) {
                 case "create":
                     if (player.hasPermission("duels.command.kit.create")) {
-                        if (args.length > 3) {
+                        if (args.length > 1) {
                             List<Integer> ids = new ArrayList<>();
                             ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits");
                             if (section == null) return false;
@@ -39,13 +45,49 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                             }
                             int id;
                             if (ids.isEmpty()) id = 1; else id = Collections.max(ids) + 1;
-                            plugin.getConfig().set("data.kits." + id + ".content", player.getInventory().getContents());
-                            plugin.getConfig().set("data.kits." + id + ".name", args[1]);
-                            plugin.getConfig().set("data.kits." + id + ".maxHealth", Integer.parseInt(args[2]));
-                            plugin.getConfig().set("data.kits." + id + ".icon", args[3]);
-                            plugin.saveConfig();
-                            plugin.reloadConfig();
-                            player.sendMessage(Replacer.value(MessageManager.getMessage("kit.created"), args[1]));
+                            KitCreaterGUI kitCreaterGUI = new KitCreaterGUI(args[1], id, player.getInventory().getContents());
+                            Inventory gui = Bukkit.createInventory(kitCreaterGUI, 27, Replacer.value(MessageManager.getMessage("kit.gui.title"), args[1]));
+
+                            ItemStack outline = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+                            ItemMeta outlineMeta = outline.getItemMeta();
+                            outlineMeta.setDisplayName(MessageManager.getMessage("kit.gui.outlineName"));
+                            outline.setItemMeta(outlineMeta);
+
+                            ItemStack inline = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                            ItemMeta inlineMeta = inline.getItemMeta();
+                            inlineMeta.setDisplayName(MessageManager.getMessage("kit.gui.inlineName"));
+                            inline.setItemMeta(inlineMeta);
+
+                            ItemStack maxHealth = new ItemStack(Material.RED_CONCRETE, 20);
+                            ItemMeta maxHealthMeta = maxHealth.getItemMeta();
+                            maxHealthMeta.setDisplayName(MessageManager.getMessage("kit.gui.maxHealthName"));
+                            maxHealth.setItemMeta(maxHealthMeta);
+
+                            ItemStack icon = new ItemStack(kitCreaterGUI.getPossible().get(kitCreaterGUI.getIndex()));
+                            ItemMeta iconMeta = icon.getItemMeta();
+                            iconMeta.setDisplayName(MessageManager.getMessage("kit.gui.iconName"));
+                            icon.setItemMeta(iconMeta);
+
+                            ItemStack arenas = new ItemStack(Material.BLACK_CONCRETE);
+                            ItemMeta arenasMeta = arenas.getItemMeta();
+                            arenasMeta.setDisplayName(MessageManager.getMessage("kit.gui.arenasName"));
+                            arenas.setItemMeta(arenasMeta);
+
+                            ItemStack save = new ItemStack(Material.LIME_CONCRETE);
+                            ItemMeta saveMeta = save.getItemMeta();
+                            saveMeta.setDisplayName(MessageManager.getMessage("kit.gui.saveName"));
+                            save.setItemMeta(saveMeta);
+
+                            for (int i = 0; i < 27; i++) {
+                                if (i < 10 || (i > 16 && i < 26)) gui.setItem(i, outline);
+                                if (i > 9 && i < 17 && !List.of(11, 13, 15).contains(i)) gui.setItem(i, inline);
+                                if (i == 11) gui.setItem(i, maxHealth);
+                                if (i == 13) gui.setItem(i, icon);
+                                if (i == 15) gui.setItem(i, arenas);
+                                if (i == 26) gui.setItem(i, save);
+                            }
+
+                            player.openInventory(gui);
                         } else player.sendMessage(MessageManager.getMessage("noArgs"));
                     } else player.sendMessage(MessageManager.getMessage("noPerm"));
                     break;

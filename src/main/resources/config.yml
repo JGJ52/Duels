@@ -47,6 +47,18 @@ languages:
       created: "§aKit successfully created: %value%" # value = kit's name
       loaded: "§aKit loaded successfully: %value%" # value = kit's name
       deleted: "§aKit successfully deleted: %value%" # value = kit's name
+      gui:
+        title: "Create kit %value%" # value = kit's name
+        outlineName: " "
+        inlineName: " "
+        maxHealthName: "§fHow many health points should the players have?"
+        iconName: "§fThe item displayed at the duel menu for the kit"
+        arenasName: "§fSelect witch arenas should the duel be in"
+        saveName: "§aSave kit"
+    arena:
+      create:
+        success: "§aArena saved successfully!" # value = arena's name
+        failed: "§cArena saving failed. See console for error." # value = arena's name
 data:
   kits: {}
   players: {}
