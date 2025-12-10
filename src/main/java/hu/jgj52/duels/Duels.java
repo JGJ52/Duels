@@ -4,6 +4,7 @@ import hu.jgj52.duels.Commands.AcceptDuelCommand;
 import hu.jgj52.duels.Commands.ArenaCommand;
 import hu.jgj52.duels.Commands.DuelCommand;
 import hu.jgj52.duels.Commands.KitCommand;
+import hu.jgj52.duels.Listeners.ArenaListener;
 import hu.jgj52.duels.Listeners.DuelRequestListener;
 import hu.jgj52.duels.Listeners.KitListener;
 import hu.jgj52.duels.Managers.ArenaManager;
@@ -29,6 +30,7 @@ public final class Duels extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new DuelRequestListener(), this);
         getServer().getPluginManager().registerEvents(new KitListener(), this);
+        getServer().getPluginManager().registerEvents(new ArenaListener(), this);
 
         ArenaManager arenaManager = new ArenaManager();
         Bukkit.getScheduler().runTask(plugin, arenaManager::recreateWorld);

@@ -104,5 +104,6 @@ public class DuelRequestHandler {
         data.put("kit", event.getCurrentItem().getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER));
         data.put("expire", System.currentTimeMillis() + plugin.getConfig().getLong("duelRequestExpire") * 1000L);
         RuntimeVariables.sentDuelRequests.put(Map.of(player, enemy), data);
+        player.closeInventory();
     }
 }

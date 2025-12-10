@@ -61,6 +61,13 @@ languages:
       create:
         success: "§aArena saved successfully!" # value = arena's name
         failed: "§cArena saving failed. See console for error." # value = arena's name
+      gui:
+        title: "Create arena %value%" # value = arena's name
+        outlineName: " "
+        inlineName: " "
+        saveName: "§aSave arena"
+        distanceName: "§fAmount of blocks the players should be teleported from center (on x coordinates)"
+        cooldownName: "§fHow long the players should be invincible before the duel start (seconds)"
 data:
   kits: {}
   players: {}

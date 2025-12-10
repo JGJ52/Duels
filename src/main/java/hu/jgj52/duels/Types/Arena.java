@@ -29,27 +29,31 @@ public class Arena {
         this.cooldown = plugin.getConfig().getInt("data.arenas." + id + ".cooldown");
 
         ConfigurationSection rgns = plugin.getConfig().getConfigurationSection("data.arenas." + id + ".regions");
-        for (String rkey : rgns.getKeys(false)) {
-            ConfigurationSection conf = plugin.getConfig().getConfigurationSection("data.arenas." + id + ".regions." + rkey + ".flags");
-            Map<StateFlag, StateFlag.State> flags = new HashMap<>();
-            for (String key : conf.getKeys(false)) {
-                String value = conf.getString(key);
+        if (rgns != null) {
+            for (String rkey : rgns.getKeys(false)) {
+                ConfigurationSection conf = plugin.getConfig().getConfigurationSection("data.arenas." + id + ".regions." + rkey + ".flags");
+                Map<StateFlag, StateFlag.State> flags = new HashMap<>();
+                if (conf != null) {
+                    for (String key : conf.getKeys(false)) {
+                        String value = conf.getString(key);
 
-                Flag<?> rawFlag = WorldGuard.getInstance().getFlagRegistry().get(key.toLowerCase());
-                if (!(rawFlag instanceof StateFlag flag)) continue;
-                StateFlag.State state = StateFlag.State.valueOf(value);
+                        Flag<?> rawFlag = WorldGuard.getInstance().getFlagRegistry().get(key.toLowerCase());
+                        if (!(rawFlag instanceof StateFlag flag)) continue;
+                        StateFlag.State state = StateFlag.State.valueOf(value);
 
-                flags.put(flag, state);
+                        flags.put(flag, state);
+                    }
+                }
+
+                Region region = new Region(
+                        loc.getWorld(),
+                        new Location(loc.getWorld(), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".x1"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".y1"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".z1")),
+                        new Location(loc.getWorld(), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".x2"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".y2"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".z2")),
+                        flags
+                );
+
+                regions.add(region);
             }
-
-            Region region = new Region(
-                    loc.getWorld(),
-                    new Location(loc.getWorld(), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".x1"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".y1"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".z1")),
-                    new Location(loc.getWorld(), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".x2"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".y2"), plugin.getConfig().getDouble("data.arenas." + id + ".regions." + rkey + ".z2")),
-                    flags
-            );
-
-            regions.add(region);
         }
     }
 

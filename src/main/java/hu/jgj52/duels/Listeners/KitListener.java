@@ -85,8 +85,6 @@ public class KitListener implements Listener {
                                 ItemMeta arenaMeta = arena.getItemMeta();
                                 arenaMeta.setDisplayName("§f" + plugin.getConfig().getString("data.arenas." + arenas.get(arenasIndex) + ".name"));
                                 arenaMeta.getPersistentDataContainer().set(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER, arenas.get(arenasIndex));
-                                arenaMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                                arenaMeta.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
                                 arena.setItemMeta(arenaMeta);
                                 arenasIndex++;
 

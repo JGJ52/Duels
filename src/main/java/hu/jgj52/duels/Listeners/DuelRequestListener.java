@@ -4,7 +4,6 @@ import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Handlers.DuelRequestHandler;
 import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Utils.Replacer;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
