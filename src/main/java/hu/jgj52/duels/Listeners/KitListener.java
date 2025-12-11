@@ -14,12 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.checkerframework.checker.units.qual.N;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,10 +118,10 @@ public class KitListener implements Listener {
             if (event.getCurrentItem() == null) return;
             if (event.getCurrentItem().getType() == Material.WHITE_STAINED_GLASS) {
                 ItemMeta meta = event.getCurrentItem().getItemMeta();
-                if (!event.getCurrentItem().containsEnchantment(Enchantment.MENDING)) {
-                    meta.addEnchant(Enchantment.MENDING, 1, true);
+                if (!meta.hasEnchantmentGlintOverride()) {
+                    meta.setEnchantmentGlintOverride(true);
                 } else {
-                    meta.removeEnchant(Enchantment.MENDING);
+                    meta.setEnchantmentGlintOverride(false);
                 }
                 event.getCurrentItem().setItemMeta(meta);
             }
@@ -135,7 +132,7 @@ public class KitListener implements Listener {
                 List<Integer> arenas = new ArrayList<>();
                 for (int i = 0; i < 54; i++) {
                     ItemStack item = event.getClickedInventory().getItem(i);
-                    if (item.containsEnchantment(Enchantment.MENDING)) {
+                    if (item.getItemMeta().hasEnchantmentGlintOverride()) {
                         arenas.add(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER));
                     }
                 }

@@ -57,6 +57,7 @@ languages:
         saveName: "§aSave kit"
         arenaPickerGui:
           title: "Pick arena for %value%" # value = kit's name
+          saveName: "§aSave"
     arena:
       create:
         success: "§aArena saved successfully!" # value = arena's name

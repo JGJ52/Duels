@@ -16,11 +16,11 @@ public class PlayerManager {
             player.removePotionEffect(effect.getType());
         }
         player.setFireTicks(0);
+        player.setMaxHealth(20);
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setSaturation(5);
         player.setExperienceLevelAndProgress(0);
-        player.setMaxHealth(20);
         player.setFallDistance(0);
         player.setVelocity(new Vector(0, 0, 0));
         player.setFlying(false);
