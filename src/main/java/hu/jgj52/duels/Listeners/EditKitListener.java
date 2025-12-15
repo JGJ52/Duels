@@ -47,6 +47,7 @@ public class EditKitListener implements Listener {
                 plugin.reloadConfig();
                 player.sendMessage(Replacer.value(MessageManager.getMessage("savedKit"), ((EditKitGUI) event.getClickedInventory().getHolder()).getKit().getName()));
                 player.closeInventory();
+                player.getInventory().clear();
             }
         }
     }
