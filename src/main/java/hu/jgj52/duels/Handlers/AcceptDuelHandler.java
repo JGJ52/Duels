@@ -84,7 +84,7 @@ public class AcceptDuelHandler {
                     player.setGameMode(GameMode.SURVIVAL);
                     player.setInvulnerable(true);
                     player.setCollidable(true);
-                    player.getInventory().setContents(kit.getContents());
+                    player.getInventory().setContents(kit.getContents(player));
                     allPlayers.add(player);
                 }
             }

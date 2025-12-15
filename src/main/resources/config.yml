@@ -69,6 +69,15 @@ languages:
         saveName: "§aSave arena"
         distanceName: "§fAmount of blocks the players should be teleported from center (on x coordinates)"
         cooldownName: "§fHow long the players should be invincible before the duel start (seconds)"
+    playerDefeated: "§6%player_name% §chas been defeated" # to players who were in player's team
+    playerDefeatedYay: "§6%player_name% §ahas been defeated" # to players who weren't in player's team
+    editKitGui:
+      title: "Edit kit %value%" # value = kit's name
+      cancelName: "§cCancel editing"
+      infoName: "§fEditing kit %value%" # value = kit's name
+      saveName: "§aSave kit"
+    didntSaveKit: "§cKit editing cancelled"
+    savedKit: "§aKit %value% successfully saved!" # value = kit's name
 data:
   kits: {}
   players: {}

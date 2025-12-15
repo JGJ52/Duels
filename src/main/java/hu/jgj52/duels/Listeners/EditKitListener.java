@@ -1,0 +1,53 @@
+package hu.jgj52.duels.Listeners;
+
+import hu.jgj52.duels.GUIs.EditKitGUI;
+import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Utils.Replacer;
+import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.persistence.PersistentDataType;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import static hu.jgj52.duels.Duels.plugin;
+
+public class EditKitListener implements Listener {
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (event.getClickedInventory() == null) return;
+
+        if (event.getClickedInventory().getHolder() instanceof EditKitGUI) {
+            event.setCancelled(true);
+            if (event.getCurrentItem() == null) return;
+
+            if (event.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
+                player.closeInventory();
+                player.sendMessage(MessageManager.getMessage("didntSaveKit"));
+            }
+            if (event.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
+                PlayerInventory inventory = player.getInventory();
+                Map<Integer, Integer> items = new HashMap<>();
+                for (int i = 0; i < 42; i++) {
+                    ItemStack item = inventory.getItem(i);
+                    if (item == null) continue;
+                    Integer defaultI = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "defaultSlot"), PersistentDataType.INTEGER);
+                    if (defaultI == null) return;
+                    items.put(defaultI, i);
+                }
+                plugin.getConfig().set("data.kits." + ((EditKitGUI) event.getClickedInventory().getHolder()).getKit().getId() + ".players." + player.getUniqueId(), items);
+                plugin.saveConfig();
+                plugin.reloadConfig();
+                player.sendMessage(Replacer.value(MessageManager.getMessage("savedKit"), ((EditKitGUI) event.getClickedInventory().getHolder()).getKit().getName()));
+                player.closeInventory();
+            }
+        }
+    }
+}

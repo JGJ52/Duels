@@ -2,12 +2,15 @@ package hu.jgj52.duels.Types;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.checkerframework.common.returnsreceiver.qual.This;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static hu.jgj52.duels.Duels.plugin;
 
@@ -49,6 +52,20 @@ public class Kit {
 
     public ItemStack[] getContents() {
         return contents;
+    }
+
+    public ItemStack[] getContents(Player player) {
+        ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits." + id + ".players." + player.getUniqueId());
+        if (section == null) return contents;
+        ItemStack[] playerContents = new ItemStack[contents.length];
+        Map<Integer, Integer> items = new HashMap<>();
+        for (String key : section.getKeys(false)) {
+            items.put(Integer.parseInt(key), Integer.parseInt(section.getString(key)));
+        }
+        for (Integer key : items.keySet()) {
+            playerContents[items.get(key)] = contents[key];
+        }
+        return playerContents;
     }
 
     public int getId() {
