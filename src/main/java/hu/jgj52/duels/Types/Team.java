@@ -9,11 +9,13 @@ import java.util.Map;
 
 public class Team {
     private final Map<Player, Boolean> players = new HashMap<>();
+    private int points;
 
     public Team (List<Player> players) {
         for (Player player : players) {
             this.players.put(player, true);
         }
+        points = 0;
     }
 
     public List<Player> getPlayers() {
@@ -34,5 +36,13 @@ public class Team {
             if (this.players.get(player)) players.add(player);
         }
         return players;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void addPoints() {
+        points++;
     }
 }

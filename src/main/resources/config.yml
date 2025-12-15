@@ -1,9 +1,9 @@
 defaultRounds: 1
 defaultSpectators: true
 spawn:
-  x: 0
+  x: 0.5
   y: 0
-  z: 0
+  z: 0.5
   world: "world"
   yaw: 0
   pitch: 0
@@ -78,6 +78,8 @@ languages:
       saveName: "§aSave kit"
     didntSaveKit: "§cKit editing cancelled"
     savedKit: "§aKit %value% successfully saved!" # value = kit's name
+    youWon: "§aYou won the duel!"
+    youLost: "§cYou lost the duel"
 data:
   kits: {}
   players: {}

@@ -45,10 +45,26 @@ public class DuelEndHandler {
                 }
             }
             team.setDefeated(player);
+            RuntimeVariables.duels.remove(data);
+            enemy.addPoints();
             if (color.equals("blue")) data.put("blue", team); else if (color.equals("red")) data.put("red", team); else return false;
             player.setGameMode(GameMode.SPECTATOR);
             if (team.getAlivePlayers().isEmpty()) {
-
+                if (enemy.getPoints() < (int) data.get("rounds")) {
+                    //todo: test this, im not sure if this is right but probably it is
+                    AcceptDuelHandler.acceptDuel(color.equals("blue") ? team : enemy, color.equals("red") ? enemy : team, data);
+                } else {
+                    for (Player players : team.getPlayers()) {
+                        players.sendTitle(MessageManager.getMessage("youLost"), "", 0, 20, 0);
+                        PlayerManager.tpToSpawn(players);
+                        RuntimeVariables.isInDuel.remove(players);
+                    }
+                    for (Player players : enemy.getPlayers()) {
+                        players.sendTitle(MessageManager.getMessage("youWon"), "", 0, 20, 0);
+                        PlayerManager.tpToSpawn(players);
+                        RuntimeVariables.isInDuel.remove(players);
+                    }
+                }
             } else {
                 for (Player players : team.getPlayers()) {
                     players.sendMessage(Replacer.playerName(MessageManager.getMessage("playerDefeated"), player));
@@ -56,6 +72,7 @@ public class DuelEndHandler {
                 for (Player players : enemy.getPlayers()) {
                     players.sendMessage(Replacer.playerName(MessageManager.getMessage("playerDefeatedYay"), player));
                 }
+                RuntimeVariables.duels.add(data);
             }
         } else {
             PlayerManager.tpToSpawn(player);

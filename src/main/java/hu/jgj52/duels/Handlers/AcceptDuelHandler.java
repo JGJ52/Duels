@@ -38,6 +38,7 @@ public class AcceptDuelHandler {
 
         Arena arena = new Arena(kit.getId(), new Location(arenas, 0, 100, z));
         if (arena.place()) {
+            //todo: remove theese teams because it doesnt work
             String blueTeamName = "team_blue";
             Team blueTeam = scoreboard.getTeam(blueTeamName);
             if (blueTeam == null) blueTeam = scoreboard.registerNewTeam(blueTeamName);
