@@ -17,3 +17,7 @@ commands:
     permission: duels.command.arena
   editkit:
     permission: duels.command.editkit
+  forfeit:
+    permission: duels.command.forfeit
+  leave:
+    permission: duels.command.leave

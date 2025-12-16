@@ -10,6 +10,7 @@ import java.util.Map;
 public class Team {
     private final Map<Player, Boolean> players = new HashMap<>();
     private int points;
+    private final List<Player> removedPlayers = new ArrayList<>();
 
     public Team (List<Player> players) {
         for (Player player : players) {
@@ -30,12 +31,30 @@ public class Team {
         return false;
     }
 
+    public boolean setAlive(Player player) {
+        if (players.get(player) != null) {
+            players.put(player, true);
+        }
+        return false;
+    }
+
     public List<Player> getAlivePlayers() {
         List<Player> players = new ArrayList<>();
         for (Player player : this.players.keySet()) {
-            if (this.players.get(player)) players.add(player);
+            if (this.players.get(player)) {
+                players.add(player);
+            }
+
         }
         return players;
+    }
+
+    public List<Player> getRemovedPlayers() {
+        return removedPlayers;
+    }
+
+    public void removePlayer(Player player) {
+        removedPlayers.add(player);
     }
 
     public int getPoints() {

@@ -23,12 +23,15 @@ public final class Duels extends JavaPlugin {
         getCommand("kit").setExecutor(new KitCommand());
         getCommand("arena").setExecutor(new ArenaCommand());
         getCommand("editkit").setExecutor(new EditKitCommand());
+        getCommand("forfeit").setExecutor(new ForfeitCommand());
+        getCommand("leave").setExecutor(new LeaveCommand());
 
         getServer().getPluginManager().registerEvents(new DuelRequestListener(), this);
         getServer().getPluginManager().registerEvents(new KitListener(), this);
         getServer().getPluginManager().registerEvents(new ArenaListener(), this);
         getServer().getPluginManager().registerEvents(new DuelEndListener(), this);
         getServer().getPluginManager().registerEvents(new EditKitListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
 
         ArenaManager arenaManager = new ArenaManager();
         Bukkit.getScheduler().runTask(plugin, arenaManager::recreateWorld);
