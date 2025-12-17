@@ -24,11 +24,11 @@ import java.util.List;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class KitCommand implements CommandExecutor, TabCompleter {
+public class KitCommand extends Replacer implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+            sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
 
@@ -46,36 +46,36 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                             int id;
                             if (ids.isEmpty()) id = 1; else id = Collections.max(ids) + 1;
                             KitCreaterGUI kitCreaterGUI = new KitCreaterGUI(args[1], id, player.getInventory().getContents());
-                            Inventory gui = Bukkit.createInventory(kitCreaterGUI, 27, Replacer.value(MessageManager.getMessage("kit.gui.title"), args[1]));
+                            Inventory gui = Bukkit.createInventory(kitCreaterGUI, 27, value(getMessage("kit.gui.title"), args[1]));
 
                             ItemStack outline = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
                             ItemMeta outlineMeta = outline.getItemMeta();
-                            outlineMeta.setDisplayName(MessageManager.getMessage("kit.gui.outlineName"));
+                            outlineMeta.setDisplayName(getMessage("kit.gui.outlineName"));
                             outline.setItemMeta(outlineMeta);
 
                             ItemStack inline = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
                             ItemMeta inlineMeta = inline.getItemMeta();
-                            inlineMeta.setDisplayName(MessageManager.getMessage("kit.gui.inlineName"));
+                            inlineMeta.setDisplayName(getMessage("kit.gui.inlineName"));
                             inline.setItemMeta(inlineMeta);
 
                             ItemStack maxHealth = new ItemStack(Material.RED_CONCRETE, 20);
                             ItemMeta maxHealthMeta = maxHealth.getItemMeta();
-                            maxHealthMeta.setDisplayName(MessageManager.getMessage("kit.gui.maxHealthName"));
+                            maxHealthMeta.setDisplayName(getMessage("kit.gui.maxHealthName"));
                             maxHealth.setItemMeta(maxHealthMeta);
 
                             ItemStack icon = new ItemStack(kitCreaterGUI.getPossible().get(kitCreaterGUI.getIndex()));
                             ItemMeta iconMeta = icon.getItemMeta();
-                            iconMeta.setDisplayName(MessageManager.getMessage("kit.gui.iconName"));
+                            iconMeta.setDisplayName(getMessage("kit.gui.iconName"));
                             icon.setItemMeta(iconMeta);
 
                             ItemStack arenas = new ItemStack(Material.BLACK_CONCRETE);
                             ItemMeta arenasMeta = arenas.getItemMeta();
-                            arenasMeta.setDisplayName(MessageManager.getMessage("kit.gui.arenasName"));
+                            arenasMeta.setDisplayName(getMessage("kit.gui.arenasName"));
                             arenas.setItemMeta(arenasMeta);
 
                             ItemStack save = new ItemStack(Material.LIME_CONCRETE);
                             ItemMeta saveMeta = save.getItemMeta();
-                            saveMeta.setDisplayName(MessageManager.getMessage("kit.gui.saveName"));
+                            saveMeta.setDisplayName(getMessage("kit.gui.saveName"));
                             save.setItemMeta(saveMeta);
 
                             for (int i = 0; i < 27; i++) {
@@ -88,31 +88,31 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                             }
 
                             player.openInventory(gui);
-                        } else player.sendMessage(MessageManager.getMessage("noArgs"));
-                    } else player.sendMessage(MessageManager.getMessage("noPerm"));
+                        } else player.sendMessage(getMessage("noArgs"));
+                    } else player.sendMessage(getMessage("noPerm"));
                     break;
                 case "load":
                     if (player.hasPermission("duels.command.kit.load")) {
                         if (args.length > 1) {
                             Kit kit = new Kit(args[1]);
                             player.getInventory().setContents(kit.getContents());
-                            player.sendMessage(Replacer.value(MessageManager.getMessage("kit.loaded"), kit.getName()));
-                        } else player.sendMessage(MessageManager.getMessage("noArgs"));
-                    } else player.sendMessage(MessageManager.getMessage("noPerm"));
+                            player.sendMessage(value(getMessage("kit.loaded"), kit.getName()));
+                        } else player.sendMessage(getMessage("noArgs"));
+                    } else player.sendMessage(getMessage("noPerm"));
                     break;
                 case "delete":
                     if (player.hasPermission("duels.command.kit.delete")) {
                         if (args.length > 1) {
                             Kit kit = new Kit(args[1]);
                             kit.delete();
-                            player.sendMessage(Replacer.value(MessageManager.getMessage("kit.deleted"), kit.getName()));
-                        } else player.sendMessage(MessageManager.getMessage("noArgs"));
-                    } else player.sendMessage(MessageManager.getMessage("noPerm"));
+                            player.sendMessage(value(getMessage("kit.deleted"), kit.getName()));
+                        } else player.sendMessage(getMessage("noArgs"));
+                    } else player.sendMessage(getMessage("noPerm"));
                     break;
                 default:
-                    player.sendMessage(MessageManager.getMessage("badArgs"));
+                    player.sendMessage(getMessage("badArgs"));
             }
-        } else player.sendMessage(MessageManager.getMessage("noArgs"));
+        } else player.sendMessage(getMessage("noArgs"));
         return true;
     }
 

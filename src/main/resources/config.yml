@@ -80,6 +80,8 @@ languages:
     savedKit: "§aKit %value% successfully saved!" # value = kit's name
     youWon: "§aYou won the duel!"
     youLost: "§cYou lost the duel"
+    roundWon: "§aYou won the round!"
+    roundLost: "§cYou lost the round"
 data:
   kits: {}
   players: {}

@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class DuelRequestListener implements Listener {
+public class DuelRequestListener extends Replacer implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -25,7 +25,7 @@ public class DuelRequestListener implements Listener {
             if (event.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE || event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) return;
             Player enemy = ((DuelRequestGUI) event.getClickedInventory().getHolder()).getEnemy();
             if (!enemy.isOnline()) {
-                player.sendMessage(Replacer.playerName(MessageManager.getMessage("noPlayer"), enemy));
+                player.sendMessage(playerName(getMessage("noPlayer"), enemy));
                 return;
             }
             if (event.getClickedInventory() == null) return;

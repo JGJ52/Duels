@@ -1,8 +1,6 @@
 package hu.jgj52.duels.Handlers;
 
-import hu.jgj52.duels.Duels;
 import hu.jgj52.duels.GUIs.DuelRequestGUI;
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -29,18 +27,18 @@ import java.util.Map;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class DuelRequestHandler {
+public class DuelRequestHandler extends Replacer {
     public static boolean duelRequest(Player player, Player enemy) {
-        Inventory gui = Bukkit.createInventory(new DuelRequestGUI(player, enemy), 54, Replacer.playerName(MessageManager.getMessage("duelRequestGui.title"), enemy));
+        Inventory gui = Bukkit.createInventory(new DuelRequestGUI(player, enemy), 54, playerName(getMessage("duelRequestGui.title"), enemy));
 
         ItemStack glass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
         ItemMeta glassMeta = glass.getItemMeta();
-        glassMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.glassName"));
+        glassMeta.setDisplayName(getMessage("duelRequestGui.glassName"));
         glass.setItemMeta(glassMeta);
 
         ItemStack content = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
         ItemMeta contentMeta = content.getItemMeta();
-        contentMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.contentGlassName"));
+        contentMeta.setDisplayName(getMessage("duelRequestGui.contentGlassName"));
         content.setItemMeta(contentMeta);
 
         for (int i = 0; i < 54; i++) {
@@ -67,14 +65,14 @@ public class DuelRequestHandler {
         ItemStack rounds = new ItemStack(Material.ENDER_EYE);
         rounds.setAmount(plugin.getConfig().getInt("data.players." + player.getUniqueId() + ".rounds", 1));
         ItemMeta roundsMeta = rounds.getItemMeta();
-        roundsMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.roundsName"));
+        roundsMeta.setDisplayName(getMessage("duelRequestGui.roundsName"));
         rounds.setItemMeta(roundsMeta);
 
         gui.setItem(4, rounds);
 
         ItemStack spectate = new ItemStack(plugin.getConfig().getBoolean("data.players." + player.getUniqueId() + ".spectators", true) ? Material.LIME_STAINED_GLASS : Material.RED_STAINED_GLASS);
         ItemMeta spectateMeta = spectate.getItemMeta();
-        spectateMeta.setDisplayName(MessageManager.getMessage("duelRequestGui.spectatorsName"));
+        spectateMeta.setDisplayName(getMessage("duelRequestGui.spectatorsName"));
         spectate.setItemMeta(spectateMeta);
 
         gui.setItem(49, spectate);
@@ -85,18 +83,18 @@ public class DuelRequestHandler {
         return true;
     }
     public static void sendDuelRequest(Player player, Player enemy, InventoryClickEvent event) {
-        Component acceptButton = Component.text(MessageManager.getMessage("duelRequestAcceptButton"))
+        Component acceptButton = Component.text(getMessage("duelRequestAcceptButton"))
                 .color(NamedTextColor.GREEN)
                 .clickEvent(ClickEvent.runCommand("/acceptduel " + player.getName()))
-                .hoverEvent(HoverEvent.showText(Component.text(MessageManager.getMessage("duelRequestAcceptButtonHover"))));
+                .hoverEvent(HoverEvent.showText(Component.text(getMessage("duelRequestAcceptButtonHover"))));
 
         MiniMessage mm = MiniMessage.miniMessage();
 
-        Component message = mm.deserialize(Replacer.playerName(MessageManager.getMessage("duelRequestMessage"), player), Placeholder.component("accept", acceptButton));
+        Component message = mm.deserialize(playerName(getMessage("duelRequestMessage"), player), Placeholder.component("accept", acceptButton));
 
         enemy.sendMessage(message);
 
-        player.sendMessage(Replacer.playerName(MessageManager.getMessage("duelRequestSentMessage"), enemy));
+        player.sendMessage(playerName(getMessage("duelRequestSentMessage"), enemy));
 
         Map<String, Object> data = new HashMap<>();
         data.put("rounds", plugin.getConfig().getInt("data.players." + player.getUniqueId() + ".rounds"));

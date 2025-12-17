@@ -22,7 +22,7 @@ import java.util.List;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class KitListener implements Listener {
+public class KitListener extends Replacer implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -59,7 +59,7 @@ public class KitListener implements Listener {
                     }
                     break;
                 case 15:
-                    Inventory gui = Bukkit.createInventory(new ArenaPickerGUI(event.getClickedInventory()), 54, Replacer.value(MessageManager.getMessage("kit.gui.arenaPickerGui.title"), ((KitCreaterGUI) event.getClickedInventory().getHolder()).getKitName()));
+                    Inventory gui = Bukkit.createInventory(new ArenaPickerGUI(event.getClickedInventory()), 54, value(getMessage("kit.gui.arenaPickerGui.title"), ((KitCreaterGUI) event.getClickedInventory().getHolder()).getKitName()));
 
                     List<Integer> arenas = new ArrayList<>();
                     int arenasIndex = 0;
@@ -91,7 +91,7 @@ public class KitListener implements Listener {
 
                     ItemStack save = new ItemStack(Material.LIME_CONCRETE);
                     ItemMeta saveMeta = save.getItemMeta();
-                    saveMeta.setDisplayName(MessageManager.getMessage("kit.gui.arenaPickerGui.saveName"));
+                    saveMeta.setDisplayName(getMessage("kit.gui.arenaPickerGui.saveName"));
                     save.setItemMeta(saveMeta);
                     gui.setItem(53, save);
 
@@ -109,7 +109,7 @@ public class KitListener implements Listener {
                     plugin.saveConfig();
                     plugin.reloadConfig();
                     player.closeInventory();
-                    player.sendMessage(Replacer.value(MessageManager.getMessage("kit.created"), ((KitCreaterGUI) event.getClickedInventory().getHolder()).getKitName()));
+                    player.sendMessage(value(getMessage("kit.created"), ((KitCreaterGUI) event.getClickedInventory().getHolder()).getKitName()));
                     break;
             }
         } else if (event.getClickedInventory().getHolder() instanceof ArenaPickerGUI) {
@@ -135,7 +135,7 @@ public class KitListener implements Listener {
                         arenas.add(item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "id"), PersistentDataType.INTEGER));
                     }
                 }
-                Inventory newInventory = Bukkit.createInventory(new KitCreaterGUI(oldHolder.getKitName(), oldHolder.getKitId(), oldHolder.getKitContent(), arenas), 27, Replacer.value(MessageManager.getMessage("kit.gui.title"), oldHolder.getKitName()));
+                Inventory newInventory = Bukkit.createInventory(new KitCreaterGUI(oldHolder.getKitName(), oldHolder.getKitId(), oldHolder.getKitContent(), arenas), 27, value(getMessage("kit.gui.title"), oldHolder.getKitName()));
                 newInventory.setContents(old.getContents());
                 player.openInventory(newInventory);
             }

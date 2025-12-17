@@ -1,6 +1,5 @@
 package hu.jgj52.duels.Handlers;
 
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Types.Arena;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Types.Team;
@@ -24,7 +23,7 @@ import java.util.Map;
 import static hu.jgj52.duels.Duels.plugin;
 import static java.util.Collections.min;
 
-public class AcceptDuelHandler {
+public class AcceptDuelHandler extends Replacer {
     public static boolean acceptDuel(Team blue, Team red, Map<String, Object> duelDetails) {
         int z = RuntimeVariables.usedArenas.isEmpty() ? 0 : min(RuntimeVariables.usedArenas) - 1000;
         RuntimeVariables.usedArenas.add(z);
@@ -89,7 +88,7 @@ public class AcceptDuelHandler {
                 public void run() {
                     if (time > 0) {
                         for (Player p : allPlayers) {
-                            p.sendTitle(Replacer.value(MessageManager.getMessage("duelStart.countback"), String.valueOf(time)), "", 0, 20, 0);
+                            p.sendTitle(value(getMessage("duelStart.countback"), String.valueOf(time)), "", 0, 20, 0);
                             Sound.wait(p);
                         }
                         time--;
@@ -97,7 +96,7 @@ public class AcceptDuelHandler {
                     }
 
                     for (Player p : allPlayers) {
-                        p.sendTitle(MessageManager.getMessage("duelStart.started"), "", 0, 20, 0);
+                        p.sendTitle(getMessage("duelStart.started"), "", 0, 20, 0);
                         p.setInvulnerable(false);
                         Sound.done(p);
                     }

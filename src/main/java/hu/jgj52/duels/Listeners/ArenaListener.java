@@ -14,7 +14,6 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import hu.jgj52.duels.GUIs.ArenaCreaterGUI;
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -30,7 +29,7 @@ import java.util.*;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class ArenaListener implements Listener {
+public class ArenaListener extends Replacer implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player player)) return;
@@ -110,15 +109,15 @@ public class ArenaListener implements Listener {
                         }
                         plugin.saveConfig();
                         plugin.reloadConfig();
-                        player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.success"), name));
+                        player.sendMessage(value(getMessage("arena.create.success"), name));
                         player.closeInventory();
                     } catch (IOException e) {
-                        player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.failed"), name));
+                        player.sendMessage(value(getMessage("arena.create.failed"), name));
                         player.closeInventory();
                         throw new RuntimeException(e);
                     }
                 } catch (EmptyClipboardException e) {
-                    player.sendMessage(Replacer.value(MessageManager.getMessage("arena.create.failed"), name));
+                    player.sendMessage(value(getMessage("arena.create.failed"), name));
                     player.closeInventory();
                     throw new RuntimeException(e);
                 }

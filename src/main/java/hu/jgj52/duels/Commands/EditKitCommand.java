@@ -18,19 +18,19 @@ import java.util.List;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class EditKitCommand implements CommandExecutor, TabCompleter {
+public class EditKitCommand extends MessageManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+            sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
         if (args.length < 1) {
-            player.sendMessage(MessageManager.getMessage("noArgs"));
+            player.sendMessage(getMessage("noArgs"));
             return true;
         }
         if (RuntimeVariables.duels.contains(player)) {
-            player.sendMessage(MessageManager.getMessage("youAreInDuel"));
+            player.sendMessage(getMessage("youAreInDuel"));
             return true;
         }
         return EditKitHandler.handle(player, new Kit(args[0]));

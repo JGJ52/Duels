@@ -13,11 +13,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class ForfeitCommand implements CommandExecutor, TabCompleter {
+public class ForfeitCommand extends MessageManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+            sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
 

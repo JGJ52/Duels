@@ -17,11 +17,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class LeaveCommand implements CommandExecutor, TabCompleter {
+public class LeaveCommand extends MessageManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+            sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
 

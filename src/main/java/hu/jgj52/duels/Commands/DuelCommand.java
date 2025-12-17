@@ -1,7 +1,6 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.DuelRequestHandler;
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
@@ -16,42 +15,42 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class DuelCommand implements CommandExecutor, TabCompleter {
+public class DuelCommand extends Replacer implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
         if (!(sender instanceof Player player)) {
-            sender.sendMessage(MessageManager.getMessage("youAreNotAPlayer"));
+            sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
 
         if (args.length < 1) {
-            player.sendMessage(MessageManager.getMessage("noArgs"));
+            player.sendMessage(getMessage("noArgs"));
             return true;
         }
 
         if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
-            player.sendMessage(MessageManager.getMessage("youAreInDuel"));
+            player.sendMessage(getMessage("youAreInDuel"));
             return true;
         }
 
         Player enemy = Bukkit.getPlayer(args[0]);
         if (enemy == null) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("noPlayer"), args[0]));
+            player.sendMessage(playerName(getMessage("noPlayer"), args[0]));
             return true;
         }
 
         if (player == enemy) {
-            player.sendMessage(MessageManager.getMessage("cantDuelYourself"));
+            player.sendMessage(getMessage("cantDuelYourself"));
             return true;
         }
 
         if (RuntimeVariables.sentDuelRequests.get(Map.of(player, enemy)) != null) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("alreadySentDuelRequest"), enemy));
+            player.sendMessage(playerName(getMessage("alreadySentDuelRequest"), enemy));
             return true;
         }
 
         if (RuntimeVariables.isInDuel.getOrDefault(enemy, false)) {
-            player.sendMessage(Replacer.playerName(MessageManager.getMessage("enemyIsInDuel"), enemy));
+            player.sendMessage(playerName(getMessage("enemyIsInDuel"), enemy));
             return true;
         }
 

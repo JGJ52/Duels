@@ -1,8 +1,6 @@
 package hu.jgj52.duels.Handlers;
 
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Managers.PlayerManager;
-import hu.jgj52.duels.Types.Arena;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -17,7 +15,7 @@ import java.util.Map;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class DuelEndHandler {
+public class DuelEndHandler extends Replacer {
     public static boolean duelEnd(Player player) {
         if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
             Team team = new Team(List.of());
@@ -54,13 +52,13 @@ public class DuelEndHandler {
             if (team.getRemovedPlayers().size() == team.getPlayers().size()) {
                 for (Player players : team.getPlayers()) {
                     if (players.isOnline()) {
-                        players.sendTitle(MessageManager.getMessage("youLost"), "", 0, 20, 0);
+                        players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
                     }
                     RuntimeVariables.isInDuel.remove(players);
                 }
                 for (Player players : enemy.getPlayers()) {
-                    players.sendTitle(MessageManager.getMessage("youWon"), "", 0, 20, 0);
+                    players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                     PlayerManager.tpToSpawn(players);
                     RuntimeVariables.isInDuel.remove(players);
                 }
@@ -70,21 +68,23 @@ public class DuelEndHandler {
                 if (enemy.getPoints() < (int) data.get("rounds")) {
                     for (Player p : team.getPlayers()) {
                         team.setAlive(p);
+                        p.sendTitle(getMessage("roundLost"), "", 0, 20, 0);
                     }
                     for (Player p : enemy.getPlayers()) {
                         enemy.setAlive(p);
+                        p.sendTitle(getMessage("roundWon"), "", 0, 20, 0);
                     }
                     if (color.equals("blue")) data.put("blue", team); else if (color.equals("red")) data.put("red", team); else return false;
                     Map<String, Object> finalData = data;
                     Bukkit.getScheduler().runTaskLater(plugin, () -> AcceptDuelHandler.acceptDuel((Team) finalData.get("blue"), (Team) finalData.get("red"), finalData), 40L);
                 } else {
                     for (Player players : team.getPlayers()) {
-                        players.sendTitle(MessageManager.getMessage("youLost"), "", 0, 20, 0);
+                        players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
                         RuntimeVariables.isInDuel.remove(players);
                     }
                     for (Player players : enemy.getPlayers()) {
-                        players.sendTitle(MessageManager.getMessage("youWon"), "", 0, 20, 0);
+                        players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
                         RuntimeVariables.isInDuel.remove(players);
                     }
@@ -92,10 +92,10 @@ public class DuelEndHandler {
             } else {
                 if (color.equals("blue")) data.put("blue", team); else if (color.equals("red")) data.put("red", team); else return false;
                 for (Player players : team.getPlayers()) {
-                    players.sendMessage(Replacer.playerName(MessageManager.getMessage("playerDefeated"), player));
+                    players.sendMessage(playerName(getMessage("playerDefeated"), player));
                 }
                 for (Player players : enemy.getPlayers()) {
-                    players.sendMessage(Replacer.playerName(MessageManager.getMessage("playerDefeatedYay"), player));
+                    players.sendMessage(playerName(getMessage("playerDefeatedYay"), player));
                 }
                 RuntimeVariables.duels.add(data);
             }

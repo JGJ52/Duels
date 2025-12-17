@@ -1,7 +1,6 @@
 package hu.jgj52.duels.Handlers;
 
 import hu.jgj52.duels.GUIs.EditKitGUI;
-import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Bukkit;
@@ -16,7 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import static hu.jgj52.duels.Duels.plugin;
 
-public class EditKitHandler {
+public class EditKitHandler extends Replacer {
     public static boolean handle(Player player, Kit kit) {
         PlayerInventory inventory = player.getInventory();
         inventory.setContents(kit.getContents(player));
@@ -27,21 +26,21 @@ public class EditKitHandler {
             meta.getPersistentDataContainer().set(new NamespacedKey(plugin, "defaultSlot"), PersistentDataType.INTEGER, i);
             item.setItemMeta(meta);
         }
-        Inventory gui = Bukkit.createInventory(new EditKitGUI(kit), 27, Replacer.value(MessageManager.getMessage("editKitGui.title"), kit.getName()));
+        Inventory gui = Bukkit.createInventory(new EditKitGUI(kit), 27, value(getMessage("editKitGui.title"), kit.getName()));
 
         ItemStack save = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
         ItemMeta saveMeta = save.getItemMeta();
-        saveMeta.setDisplayName(MessageManager.getMessage("editKitGui.saveName"));
+        saveMeta.setDisplayName(getMessage("editKitGui.saveName"));
         save.setItemMeta(saveMeta);
 
         ItemStack info = new ItemStack(Material.WHITE_STAINED_GLASS_PANE);
         ItemMeta infoMeta = info.getItemMeta();
-        infoMeta.setDisplayName(Replacer.value(MessageManager.getMessage("editKitGui.infoName"), kit.getName()));
+        infoMeta.setDisplayName(value(getMessage("editKitGui.infoName"), kit.getName()));
         info.setItemMeta(infoMeta);
 
         ItemStack cancel = new ItemStack(Material.RED_STAINED_GLASS_PANE);
         ItemMeta cancelMeta = cancel.getItemMeta();
-        cancelMeta.setDisplayName(MessageManager.getMessage("editKitGui.cancelName"));
+        cancelMeta.setDisplayName(getMessage("editKitGui.cancelName"));
         cancel.setItemMeta(cancelMeta);
 
         for (int i = 0; i < 27; i++) {
