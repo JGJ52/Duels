@@ -1,7 +1,7 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.GUIs.KitCreaterGUI;
-import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Bukkit;
@@ -27,10 +27,11 @@ import static hu.jgj52.duels.Duels.plugin;
 public class KitCommand extends Replacer implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player bukkitPlayer)) {
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
+        PlayerD player = new PlayerD(bukkitPlayer);
 
         if (args.length > 0) {
             switch (args[0]) {

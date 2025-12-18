@@ -1,12 +1,12 @@
 package hu.jgj52.duels.Handlers;
 
 import hu.jgj52.duels.GUIs.EditKitGUI;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -16,7 +16,7 @@ import org.bukkit.persistence.PersistentDataType;
 import static hu.jgj52.duels.Duels.plugin;
 
 public class EditKitHandler extends Replacer {
-    public static boolean handle(Player player, Kit kit) {
+    public static boolean handle(PlayerD player, Kit kit) {
         PlayerInventory inventory = player.getInventory();
         inventory.setContents(kit.getContents(player));
         for (int i = 0; i < 42; i++) {

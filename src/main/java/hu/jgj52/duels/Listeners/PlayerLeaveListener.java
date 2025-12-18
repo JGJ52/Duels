@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Listeners;
 
 import hu.jgj52.duels.Handlers.DuelEndHandler;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.event.EventHandler;
@@ -15,7 +16,8 @@ import java.util.Map;
 public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (RuntimeVariables.isInDuel.getOrDefault(event.getPlayer(), false)) {
+        PlayerD player = new PlayerD(event.getPlayer());
+        if (player.isInDuel()) {
 
             Team team = new Team(List.of());
             Map<String, Object> data = new HashMap<>();
@@ -39,10 +41,10 @@ public class PlayerLeaveListener implements Listener {
                     break;
                 }
             }
-            team.removePlayer(event.getPlayer());
+            team.removePlayer(player);
             RuntimeVariables.duels.add(data);
 
-            DuelEndHandler.duelEnd(event.getPlayer());
+            DuelEndHandler.duelEnd(player);
         }
     }
 }

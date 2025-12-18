@@ -1,12 +1,12 @@
 package hu.jgj52.duels.Handlers;
 
 import hu.jgj52.duels.Managers.PlayerManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -16,8 +16,8 @@ import java.util.Map;
 import static hu.jgj52.duels.Duels.plugin;
 
 public class DuelEndHandler extends Replacer {
-    public static boolean duelEnd(Player player) {
-        if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
+    public static boolean duelEnd(PlayerD player) {
+        if (!player.isInDuel()) {
             Team team = new Team(List.of());
             Team enemy = new Team(List.of());
             String color = "";
@@ -50,27 +50,27 @@ public class DuelEndHandler extends Replacer {
             enemy.addPoints();
             player.setGameMode(GameMode.SPECTATOR);
             if (team.getRemovedPlayers().size() == team.getPlayers().size()) {
-                for (Player players : team.getPlayers()) {
+                for (PlayerD players : team.getPlayers()) {
                     if (players.isOnline()) {
                         players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
                     }
-                    RuntimeVariables.isInDuel.remove(players);
+                    player.isInDuel(false);
                 }
-                for (Player players : enemy.getPlayers()) {
+                for (PlayerD players : enemy.getPlayers()) {
                     players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                     PlayerManager.tpToSpawn(players);
-                    RuntimeVariables.isInDuel.remove(players);
+                    player.isInDuel(false);
                 }
                 return true;
             }
             if (team.getAlivePlayers().isEmpty()) {
                 if (enemy.getPoints() < (int) data.get("rounds")) {
-                    for (Player p : team.getPlayers()) {
+                    for (PlayerD p : team.getPlayers()) {
                         team.setAlive(p);
                         p.sendTitle(getMessage("roundLost"), "", 0, 20, 0);
                     }
-                    for (Player p : enemy.getPlayers()) {
+                    for (PlayerD p : enemy.getPlayers()) {
                         enemy.setAlive(p);
                         p.sendTitle(getMessage("roundWon"), "", 0, 20, 0);
                     }
@@ -78,23 +78,23 @@ public class DuelEndHandler extends Replacer {
                     Map<String, Object> finalData = data;
                     Bukkit.getScheduler().runTaskLater(plugin, () -> AcceptDuelHandler.acceptDuel((Team) finalData.get("blue"), (Team) finalData.get("red"), finalData), 40L);
                 } else {
-                    for (Player players : team.getPlayers()) {
+                    for (PlayerD players : team.getPlayers()) {
                         players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
-                        RuntimeVariables.isInDuel.remove(players);
+                        player.isInDuel(false);
                     }
-                    for (Player players : enemy.getPlayers()) {
+                    for (PlayerD players : enemy.getPlayers()) {
                         players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
-                        RuntimeVariables.isInDuel.remove(players);
+                        player.isInDuel(false);
                     }
                 }
             } else {
                 if (color.equals("blue")) data.put("blue", team); else if (color.equals("red")) data.put("red", team); else return false;
-                for (Player players : team.getPlayers()) {
+                for (PlayerD players : team.getPlayers()) {
                     players.sendMessage(playerName(getMessage("playerDefeated"), player));
                 }
-                for (Player players : enemy.getPlayers()) {
+                for (PlayerD players : enemy.getPlayers()) {
                     players.sendMessage(playerName(getMessage("playerDefeatedYay"), player));
                 }
                 RuntimeVariables.duels.add(data);

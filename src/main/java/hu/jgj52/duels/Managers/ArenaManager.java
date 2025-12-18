@@ -18,6 +18,7 @@ import com.sk89q.worldguard.protection.managers.storage.StorageException;
 import com.sk89q.worldguard.protection.regions.ProtectedCuboidRegion;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import com.sk89q.worldguard.protection.regions.RegionContainer;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.*;
 import org.bukkit.configuration.ConfigurationSection;
@@ -40,7 +41,7 @@ public class ArenaManager {
                 for (String regionId : manager.getRegions().keySet()) {
                     manager.removeRegion(regionId);
                 }
-                world.getPlayers().forEach(PlayerManager::tpToSpawn);
+                world.getPlayers().forEach(player -> PlayerManager.tpToSpawn(new PlayerD(player)));
                 boolean unloaded = Bukkit.unloadWorld(world, false);
                 if (unloaded) {
                     File worldFolder = new File(Bukkit.getWorldContainer(), worldName);

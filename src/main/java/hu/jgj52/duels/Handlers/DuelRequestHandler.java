@@ -2,6 +2,7 @@ package hu.jgj52.duels.Handlers;
 
 import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Types.Kit;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import hu.jgj52.duels.Utils.Sound;
@@ -15,7 +16,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -28,7 +28,7 @@ import java.util.Map;
 import static hu.jgj52.duels.Duels.plugin;
 
 public class DuelRequestHandler extends Replacer {
-    public static boolean duelRequest(Player player, Player enemy) {
+    public static boolean duelRequest(PlayerD player, PlayerD enemy) {
         Inventory gui = Bukkit.createInventory(new DuelRequestGUI(player, enemy), 54, playerName(getMessage("duelRequestGui.title"), enemy));
 
         ItemStack glass = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -82,7 +82,7 @@ public class DuelRequestHandler extends Replacer {
 
         return true;
     }
-    public static void sendDuelRequest(Player player, Player enemy, InventoryClickEvent event) {
+    public static void sendDuelRequest(PlayerD player, PlayerD enemy, InventoryClickEvent event) {
         Component acceptButton = Component.text(getMessage("duelRequestAcceptButton"))
                 .color(NamedTextColor.GREEN)
                 .clickEvent(ClickEvent.runCommand("/acceptduel " + player.getName()))

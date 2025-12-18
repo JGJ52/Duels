@@ -2,6 +2,7 @@ package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.EditKitHandler;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.command.Command;
@@ -21,10 +22,11 @@ import static hu.jgj52.duels.Duels.plugin;
 public class EditKitCommand extends MessageManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player bukkitPlayer)) {
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
+        PlayerD player = new PlayerD(bukkitPlayer);
         if (args.length < 1) {
             player.sendMessage(getMessage("noArgs"));
             return true;

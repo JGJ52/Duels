@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.DuelRequestHandler;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
@@ -18,26 +19,28 @@ import java.util.Map;
 public class DuelCommand extends Replacer implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player bukkitPlayer)) {
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
+        PlayerD player = new PlayerD(bukkitPlayer);
 
         if (args.length < 1) {
             player.sendMessage(getMessage("noArgs"));
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.getOrDefault(player, false)) {
+        if (player.isInDuel()) {
             player.sendMessage(getMessage("youAreInDuel"));
             return true;
         }
 
-        Player enemy = Bukkit.getPlayer(args[0]);
-        if (enemy == null) {
+        Player bukkitEnemy = Bukkit.getPlayer(args[0]);
+        if (bukkitEnemy == null) {
             player.sendMessage(playerName(getMessage("noPlayer"), args[0]));
             return true;
         }
+        PlayerD enemy = new PlayerD(bukkitEnemy);
 
         if (player == enemy) {
             player.sendMessage(getMessage("cantDuelYourself"));
@@ -49,7 +52,7 @@ public class DuelCommand extends Replacer implements CommandExecutor, TabComplet
             return true;
         }
 
-        if (RuntimeVariables.isInDuel.getOrDefault(enemy, false)) {
+        if (player.isInDuel()) {
             player.sendMessage(playerName(getMessage("enemyIsInDuel"), enemy));
             return true;
         }

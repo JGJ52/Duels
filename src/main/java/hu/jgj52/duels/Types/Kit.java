@@ -3,7 +3,6 @@ package hu.jgj52.duels.Types;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -54,7 +53,7 @@ public class Kit {
         return contents;
     }
 
-    public ItemStack[] getContents(Player player) {
+    public ItemStack[] getContents(PlayerD player) {
         ConfigurationSection section = plugin.getConfig().getConfigurationSection("data.kits." + id + ".players." + player.getUniqueId());
         if (section == null) return contents;
         ItemStack[] playerContents = new ItemStack[contents.length];

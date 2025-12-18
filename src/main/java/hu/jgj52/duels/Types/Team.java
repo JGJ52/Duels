@@ -1,29 +1,27 @@
 package hu.jgj52.duels.Types;
 
-import org.bukkit.entity.Player;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Team {
-    private final Map<Player, Boolean> players = new HashMap<>();
+    private final Map<PlayerD, Boolean> players = new HashMap<>();
     private int points;
-    private final List<Player> removedPlayers = new ArrayList<>();
+    private final List<PlayerD> removedPlayers = new ArrayList<>();
 
-    public Team (List<Player> players) {
-        for (Player player : players) {
+    public Team (List<PlayerD> players) {
+        for (PlayerD player : players) {
             this.players.put(player, true);
         }
         points = 0;
     }
 
-    public List<Player> getPlayers() {
+    public List<PlayerD> getPlayers() {
         return new ArrayList<>(this.players.keySet());
     }
 
-    public boolean setDefeated(Player player) {
+    public boolean setDefeated(PlayerD player) {
         if (players.get(player) != null) {
             players.put(player, false);
             return true;
@@ -31,16 +29,16 @@ public class Team {
         return false;
     }
 
-    public boolean setAlive(Player player) {
+    public boolean setAlive(PlayerD player) {
         if (players.get(player) != null) {
             players.put(player, true);
         }
         return false;
     }
 
-    public List<Player> getAlivePlayers() {
-        List<Player> players = new ArrayList<>();
-        for (Player player : this.players.keySet()) {
+    public List<PlayerD> getAlivePlayers() {
+        List<PlayerD> players = new ArrayList<>();
+        for (PlayerD player : this.players.keySet()) {
             if (this.players.get(player)) {
                 players.add(player);
             }
@@ -49,11 +47,11 @@ public class Team {
         return players;
     }
 
-    public List<Player> getRemovedPlayers() {
+    public List<PlayerD> getRemovedPlayers() {
         return removedPlayers;
     }
 
-    public void removePlayer(Player player) {
+    public void removePlayer(PlayerD player) {
         removedPlayers.add(player);
     }
 

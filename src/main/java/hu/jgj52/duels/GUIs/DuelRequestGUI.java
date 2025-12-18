@@ -1,14 +1,14 @@
 package hu.jgj52.duels.GUIs;
 
-import org.bukkit.entity.Player;
+import hu.jgj52.duels.Types.PlayerD;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
 public class DuelRequestGUI implements InventoryHolder {
-    Player player;
-    Player enemy;
-    public DuelRequestGUI (Player player, Player enemy) {
+    PlayerD player;
+    PlayerD enemy;
+    public DuelRequestGUI (PlayerD player, PlayerD enemy) {
         this.player = player;
         this.enemy = enemy;
     }
@@ -16,10 +16,10 @@ public class DuelRequestGUI implements InventoryHolder {
     public @NotNull Inventory getInventory() {
         return null;
     }
-    public Player getPlayer() {
+    public PlayerD getPlayer() {
         return player;
     }
-    public Player getEnemy() {
+    public PlayerD getEnemy() {
         return enemy;
     }
 }

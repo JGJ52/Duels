@@ -1,10 +1,10 @@
 package hu.jgj52.duels.Utils;
 
 import hu.jgj52.duels.Managers.MessageManager;
-import org.bukkit.entity.Player;
+import hu.jgj52.duels.Types.PlayerD;
 
 public class Replacer extends MessageManager {
-    public static String playerName(String message, Player player) {
+    public static String playerName(String message, PlayerD player) {
         return message.replaceAll("%player_name%", player.getName());
     }
     public static String playerName(String message, String player) {

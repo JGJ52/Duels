@@ -1,16 +1,16 @@
 package hu.jgj52.duels.Managers;
 
+import hu.jgj52.duels.Types.PlayerD;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
 
 import static hu.jgj52.duels.Duels.plugin;
 
 public class PlayerManager {
-    public static void tpToSpawn(Player player) {
+    public static void tpToSpawn(PlayerD player) {
         Location spawn = new Location(Bukkit.getWorld(plugin.getConfig().getString("spawn.world")), plugin.getConfig().getDouble("spawn.x"), plugin.getConfig().getDouble("spawn.y"), plugin.getConfig().getDouble("spawn.z"), (float) plugin.getConfig().getDouble("yaw"), (float) plugin.getConfig().getDouble("pitch"));
         for (PotionEffect effect : player.getActivePotionEffects()) {
             player.removePotionEffect(effect.getType());

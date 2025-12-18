@@ -2,6 +2,7 @@ package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.DuelEndHandler;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.command.Command;
@@ -20,12 +21,13 @@ import java.util.Map;
 public class LeaveCommand extends MessageManager implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String @NotNull [] args) {
-        if (!(sender instanceof Player player)) {
+        if (!(sender instanceof Player bukkitPlayer)) {
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
+        PlayerD player = new PlayerD(bukkitPlayer);
 
-        if (!RuntimeVariables.isInDuel.getOrDefault(player, false)) return true;
+        if (!player.isInDuel()) return true;
 
         Team team = new Team(List.of());
         Map<String, Object> data = new HashMap<>();

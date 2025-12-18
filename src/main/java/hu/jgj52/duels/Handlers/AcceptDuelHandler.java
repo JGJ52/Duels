@@ -2,6 +2,7 @@ package hu.jgj52.duels.Handlers;
 
 import hu.jgj52.duels.Types.Arena;
 import hu.jgj52.duels.Types.Kit;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -10,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -43,10 +43,10 @@ public class AcceptDuelHandler extends Replacer {
             Location blueTeamLoc = new Location(arenas, arena.getDistance() + 0.5, 100, z + 0.5);
             Location redTeamLoc = new Location(arenas, -arena.getDistance() + 0.5, 100, z + 0.5);
 
-            List<Player> allPlayers = new ArrayList<>();
+            List<PlayerD> allPlayers = new ArrayList<>();
             for (Team team : List.of(blue, red)) {
-                for (Player player : team.getPlayers()) {
-                    RuntimeVariables.isInDuel.put(player, true);
+                for (PlayerD player : team.getPlayers()) {
+                    player.isInDuel(true);
                     player.getInventory().clear();
                     for (PotionEffect effect : player.getActivePotionEffects()) {
                         player.removePotionEffect(effect.getType());
@@ -68,10 +68,10 @@ public class AcceptDuelHandler extends Replacer {
                     allPlayers.add(player);
                 }
             }
-            for (Player player : blue.getPlayers()) {
+            for (PlayerD player : blue.getPlayers()) {
                 player.teleport(blueTeamLoc);
             }
-            for (Player player : red.getPlayers()) {
+            for (PlayerD player : red.getPlayers()) {
                 player.teleport(redTeamLoc);
             }
             Map<String, Object> duelData = new HashMap<>();
@@ -87,7 +87,7 @@ public class AcceptDuelHandler extends Replacer {
                 @Override
                 public void run() {
                     if (time > 0) {
-                        for (Player p : allPlayers) {
+                        for (PlayerD p : allPlayers) {
                             p.sendTitle(value(getMessage("duelStart.countback"), String.valueOf(time)), "", 0, 20, 0);
                             Sound.wait(p);
                         }
@@ -95,7 +95,7 @@ public class AcceptDuelHandler extends Replacer {
                         return;
                     }
 
-                    for (Player p : allPlayers) {
+                    for (PlayerD p : allPlayers) {
                         p.sendTitle(getMessage("duelStart.started"), "", 0, 20, 0);
                         p.setInvulnerable(false);
                         Sound.done(p);

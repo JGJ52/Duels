@@ -21,3 +21,5 @@ commands:
     permission: duels.command.forfeit
   leave:
     permission: duels.command.leave
+  queue:
+    permission: duels.command.queue
