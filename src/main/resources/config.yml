@@ -82,6 +82,13 @@ languages:
     youLost: "§cYou lost the duel"
     roundWon: "§aYou won the round!"
     roundLost: "§cYou lost the round"
+    queueGui:
+      title: "Enter queue"
+      outlineName: " "
+      inlineName: " "
+    enteredQueue: "§aSuccessfully entered to queue!"
+    queueKitIconLore: "§a%value% §fplayer is in queue" # value = number of players who are playing
+    alreadyInQueue: "§cYou are already in the queue!"
 data:
   kits: {}
   players: {}

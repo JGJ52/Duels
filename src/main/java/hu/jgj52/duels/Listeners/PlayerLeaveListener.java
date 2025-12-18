@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Listeners;
 
 import hu.jgj52.duels.Handlers.DuelEndHandler;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -16,7 +17,7 @@ import java.util.Map;
 public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        PlayerD player = new PlayerD(event.getPlayer());
+        PlayerD player = PlayerManager.get(event.getPlayer());
         if (player.isInDuel()) {
 
             Team team = new Team(List.of());

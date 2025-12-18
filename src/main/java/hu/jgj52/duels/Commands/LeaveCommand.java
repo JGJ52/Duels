@@ -2,6 +2,7 @@ package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.DuelEndHandler;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Team;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -25,7 +26,7 @@ public class LeaveCommand extends MessageManager implements CommandExecutor, Tab
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (!player.isInDuel()) return true;
 

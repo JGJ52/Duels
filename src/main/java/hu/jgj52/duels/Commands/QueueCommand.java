@@ -2,6 +2,7 @@ package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.QueueHandler;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class QueueCommand extends MessageManager implements CommandExecutor, Tab
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (player.isInDuel()) {
             player.sendMessage(getMessage("youAreInDuel"));

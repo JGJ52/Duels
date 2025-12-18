@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Listeners;
 
 import hu.jgj52.duels.GUIs.EditKitGUI;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Material;
@@ -22,7 +23,7 @@ public class EditKitListener extends Replacer implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player bukkitPlayer)) return;
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
         if (event.getClickedInventory() == null) return;
 
         if (event.getClickedInventory().getHolder() instanceof EditKitGUI) {

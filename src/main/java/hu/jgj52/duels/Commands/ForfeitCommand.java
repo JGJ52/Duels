@@ -2,6 +2,7 @@ package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.DuelEndHandler;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class ForfeitCommand extends MessageManager implements CommandExecutor, T
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (player.isInDuel()) return true;
 

@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.Handlers.AcceptDuelHandler;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
@@ -24,7 +25,7 @@ public class AcceptDuelCommand extends Replacer implements CommandExecutor, TabC
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (args.length < 1) {
             player.sendMessage(getMessage("noArgs"));
@@ -36,7 +37,7 @@ public class AcceptDuelCommand extends Replacer implements CommandExecutor, TabC
             player.sendMessage(playerName(getMessage("noPlayer"), args[0]));
             return true;
         }
-        PlayerD enemy = new PlayerD(bukkitEnemy);
+        PlayerD enemy = PlayerManager.get(bukkitEnemy);
 
         if (player.isInDuel()) {
             player.sendMessage(getMessage("youAreInDuel"));

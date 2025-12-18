@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.GUIs.ArenaCreaterGUI;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Bukkit;
@@ -26,7 +27,7 @@ public class ArenaCommand extends Replacer implements CommandExecutor, TabComple
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (args.length > 0) {
             switch (args[0]) {

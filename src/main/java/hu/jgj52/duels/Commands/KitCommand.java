@@ -1,6 +1,7 @@
 package hu.jgj52.duels.Commands;
 
 import hu.jgj52.duels.GUIs.KitCreaterGUI;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Utils.Replacer;
@@ -31,7 +32,7 @@ public class KitCommand extends Replacer implements CommandExecutor, TabComplete
             sender.sendMessage(getMessage("youAreNotAPlayer"));
             return true;
         }
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
 
         if (args.length > 0) {
             switch (args[0]) {

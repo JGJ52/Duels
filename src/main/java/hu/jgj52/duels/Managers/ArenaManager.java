@@ -41,7 +41,7 @@ public class ArenaManager {
                 for (String regionId : manager.getRegions().keySet()) {
                     manager.removeRegion(regionId);
                 }
-                world.getPlayers().forEach(player -> PlayerManager.tpToSpawn(new PlayerD(player)));
+                world.getPlayers().forEach(player -> PlayerManager.tpToSpawn(PlayerManager.get(player)));
                 boolean unloaded = Bukkit.unloadWorld(world, false);
                 if (unloaded) {
                     File worldFolder = new File(Bukkit.getWorldContainer(), worldName);

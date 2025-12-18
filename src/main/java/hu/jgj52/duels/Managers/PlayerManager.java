@@ -4,8 +4,13 @@ import hu.jgj52.duels.Types.PlayerD;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 import static hu.jgj52.duels.Duels.plugin;
 
@@ -31,5 +36,14 @@ public class PlayerManager {
         player.setGameMode(GameMode.valueOf(plugin.getConfig().getString("spawn.gamemode")));
         player.getInventory().clear();
         player.teleport(spawn);
+    }
+
+    private static final Map<UUID, PlayerD> cache = new HashMap<>();
+
+    public static PlayerD get(Player player) {
+        return cache.computeIfAbsent(
+                player.getUniqueId(),
+                id -> new PlayerD(player)
+        );
     }
 }

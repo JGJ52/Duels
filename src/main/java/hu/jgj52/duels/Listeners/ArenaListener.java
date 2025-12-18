@@ -14,6 +14,8 @@ import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.managers.RegionManager;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import hu.jgj52.duels.GUIs.ArenaCreaterGUI;
+import hu.jgj52.duels.Managers.PlayerManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -32,7 +34,8 @@ import static hu.jgj52.duels.Duels.plugin;
 public class ArenaListener extends Replacer implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (!(event.getWhoClicked() instanceof Player bukkitPlayer)) return;
+        PlayerD player = PlayerManager.get(bukkitPlayer);
         if (event.getClickedInventory() == null) return;
 
         if (event.getClickedInventory().getHolder() instanceof ArenaCreaterGUI holder) {
@@ -55,7 +58,7 @@ public class ArenaListener extends Replacer implements Listener {
                     File folder = new File(plugin.getDataFolder(), "schematics");
                     if (!folder.exists()) folder.mkdirs();
                     File file = new File(folder, name + ".schem");
-                    ClipboardHolder clipboard = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(player)).getClipboard();
+                    ClipboardHolder clipboard = WorldEdit.getInstance().getSessionManager().get(BukkitAdapter.adapt(bukkitPlayer)).getClipboard();
                     try (FileOutputStream fos = new FileOutputStream(file)) {
                         ClipboardWriter writer = ClipboardFormats.findByAlias("schem").getWriter(fos);
                         writer.write(clipboard.getClipboard());

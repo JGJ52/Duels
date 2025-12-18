@@ -2,6 +2,7 @@ package hu.jgj52.duels.Listeners;
 
 import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Handlers.DuelRequestHandler;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Material;
@@ -17,7 +18,7 @@ public class DuelRequestListener extends Replacer implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         if (!(event.getWhoClicked() instanceof Player bukkitPlayer)) return;
-        PlayerD player = new PlayerD(bukkitPlayer);
+        PlayerD player = PlayerManager.get(bukkitPlayer);
         if (event.getClickedInventory() == null) return;
 
         if (event.getClickedInventory().getHolder() instanceof DuelRequestGUI) {

@@ -3,6 +3,8 @@ package hu.jgj52.duels.Listeners;
 import hu.jgj52.duels.GUIs.ArenaPickerGUI;
 import hu.jgj52.duels.GUIs.KitCreaterGUI;
 import hu.jgj52.duels.Managers.MessageManager;
+import hu.jgj52.duels.Managers.PlayerManager;
+import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,7 +27,8 @@ import static hu.jgj52.duels.Duels.plugin;
 public class KitListener extends Replacer implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent event) {
-        if (!(event.getWhoClicked() instanceof Player player)) return;
+        if (!(event.getWhoClicked() instanceof Player bukkitPlayer)) return;
+        PlayerD player = PlayerManager.get(bukkitPlayer);
         if (event.getClickedInventory() == null) return;
 
         if (event.getClickedInventory().getHolder() instanceof KitCreaterGUI) {
@@ -43,6 +46,8 @@ public class KitListener extends Replacer implements Listener {
                     break;
                 case 13:
                     List<Material> possible = ((KitCreaterGUI) event.getClickedInventory().getHolder()).getPossible();
+                    possible.remove(Material.BLACK_STAINED_GLASS_PANE);
+                    possible.remove(Material.GRAY_STAINED_GLASS_PANE);
                     int i = ((KitCreaterGUI) event.getClickedInventory().getHolder()).getIndex();
                     if (event.getClick().isLeftClick()) {
                         if (i < possible.size()) {

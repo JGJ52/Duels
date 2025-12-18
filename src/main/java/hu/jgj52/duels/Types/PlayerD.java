@@ -3,36 +3,36 @@ package hu.jgj52.duels.Types;
 import net.kyori.adventure.text.Component;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-import static hu.jgj52.duels.Duels.plugin;
-
 public class PlayerD {
-    final org.bukkit.entity.Player player;
+    private static final List<Player> isInDuel = new ArrayList<>();
+    private final Player player;
 
-    public PlayerD(org.bukkit.entity.Player player) {
+    public PlayerD(Player player) {
         this.player = player;
     }
 
     public boolean isInDuel() {
-        Boolean is = player.getPersistentDataContainer().get(new NamespacedKey(plugin, "isInDuel"), PersistentDataType.BOOLEAN);
-        if (is == null) return false;
-        return is;
+        return isInDuel.contains(player);
     }
 
     public void isInDuel(Boolean is) {
-        player.getPersistentDataContainer().set(new NamespacedKey(plugin, "isInDuel"), PersistentDataType.BOOLEAN, is);
+        if (is) {
+            if (!isInDuel.contains(player)) isInDuel.add(player);
+        } else isInDuel.remove(player);
     }
 
     //bukkit things
