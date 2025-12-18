@@ -47,5 +47,6 @@ public class PlayerLeaveListener implements Listener {
 
             DuelEndHandler.duelEnd(player);
         }
+        PlayerManager.remove(event.getPlayer());
     }
 }

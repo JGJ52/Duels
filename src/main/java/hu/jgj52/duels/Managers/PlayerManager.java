@@ -10,7 +10,6 @@ import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 import static hu.jgj52.duels.Duels.plugin;
 
@@ -38,12 +37,16 @@ public class PlayerManager {
         player.teleport(spawn);
     }
 
-    private static final Map<UUID, PlayerD> cache = new HashMap<>();
+    private static final Map<Player, PlayerD> cache = new HashMap<>();
 
     public static PlayerD get(Player player) {
         return cache.computeIfAbsent(
-                player.getUniqueId(),
-                id -> new PlayerD(player)
+                player,
+                PlayerD::new
         );
+    }
+
+    public static void remove(Player player) {
+        cache.remove(player);
     }
 }
