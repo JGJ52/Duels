@@ -16,14 +16,14 @@ public class KitCreaterGUI implements InventoryHolder {
     String name;
     int id;
     ItemStack[] content;
-    List<Integer> arenas = null;
+    List<ItemStack> arenas = null;
     public KitCreaterGUI (String kitName, int kitId, ItemStack[] kitContent) {
         Collections.addAll(possible, Material.values());
         name = kitName;
         id = kitId;
         content = kitContent;
     }
-    public KitCreaterGUI (String kitName, int kitId, ItemStack[] kitContent, List<Integer> arenas) {
+    public KitCreaterGUI (String kitName, int kitId, ItemStack[] kitContent, List<ItemStack> arenas) {
         Collections.addAll(possible, Material.values());
         name = kitName;
         id = kitId;
@@ -52,7 +52,7 @@ public class KitCreaterGUI implements InventoryHolder {
     public ItemStack[] getKitContent() {
         return content;
     }
-    public List<Integer> getArenas() {
+    public List<ItemStack> getArenas() {
         return arenas;
     }
 }
