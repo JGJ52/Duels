@@ -23,7 +23,7 @@ public class ForfeitCommand extends MessageManager implements CommandExecutor, T
         }
         PlayerD player = PlayerManager.get(bukkitPlayer);
 
-        if (player.isInDuel()) return true;
+        if (!player.isInDuel()) return true;
 
         return DuelEndHandler.duelEnd(player);
     }

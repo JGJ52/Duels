@@ -4,7 +4,6 @@ import hu.jgj52.duels.Handlers.AcceptDuelHandler;
 import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import hu.jgj52.duels.Types.Team;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -49,13 +48,13 @@ public class AcceptDuelCommand extends Replacer implements CommandExecutor, TabC
             return true;
         }
 
-        if (RuntimeVariables.sentDuelRequests.get(Map.of(enemy, player)) == null) {
+        if (enemy.duelRequest(player) == null) {
             player.sendMessage(playerName(getMessage("noDuelRequest"), enemy));
             return true;
         }
 
-        Map<String, Object> duelDetails = RuntimeVariables.sentDuelRequests.get(Map.of(enemy, player));
-        RuntimeVariables.sentDuelRequests.remove(Map.of(enemy, player));
+        Map<String, Object> duelDetails = enemy.duelRequest(player);
+        enemy.duelRequest(player, Map.of());
 
         return AcceptDuelHandler.acceptDuel(new Team(List.of(enemy)), new Team(List.of(player)), duelDetails);
     }

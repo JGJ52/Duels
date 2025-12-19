@@ -12,13 +12,11 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class PlayerD {
-    private static final List<Player> isInDuel = new ArrayList<>();
+    private boolean isInDuel;
+    private final Map<PlayerD, Map<String, Object>> duelRequests = new HashMap<>();
     private final Player player;
 
     public PlayerD(Player player) {
@@ -26,13 +24,34 @@ public class PlayerD {
     }
 
     public boolean isInDuel() {
-        return isInDuel.contains(player);
+        return isInDuel;
     }
 
     public void isInDuel(Boolean is) {
-        if (is) {
-            if (!isInDuel.contains(player)) isInDuel.add(player);
-        } else isInDuel.remove(player);
+        isInDuel = is;
+    }
+
+    public Map<String, Object> duelRequest(PlayerD enemy) {
+        Map<String, Object> request = null;
+        for (PlayerD key : duelRequests.keySet()) {
+            if (key == enemy) {
+                request = duelRequests.get(key);
+                break;
+            }
+        }
+        return request;
+    }
+
+    public void duelRequest(PlayerD enemy, Map<String, Object> duelData) {
+        if (duelData.isEmpty()) {
+            duelRequests.remove(enemy);
+            return;
+        }
+        duelRequests.put(enemy, duelData);
+    }
+
+    public Map<PlayerD, Map<String, Object>> duelRequests() {
+        return duelRequests;
     }
 
     //bukkit things

@@ -58,8 +58,8 @@ public class QueueListener extends MessageManager implements Listener {
                 Team blue = new Team(List.of(players.removeFirst()));
                 Team red = new Team(List.of(players.removeFirst()));
                 Map<String, Object> data = new HashMap<>();
-                data.put("rounds", plugin.getConfig().getInt("data.players." + players.get(0).getUniqueId() + ".rounds"));
-                data.put("spectators", plugin.getConfig().getBoolean("data.players." + players.get(0).getUniqueId() + ".spectators"));
+                data.put("rounds", plugin.getConfig().getInt("defaultRounds"));
+                data.put("spectators", plugin.getConfig().getBoolean("defaultSpectators"));
                 data.put("kit", kit.getId());
                 data.put("expire", System.currentTimeMillis() + plugin.getConfig().getLong("duelRequestExpire") * 1000L);
                 AcceptDuelHandler.acceptDuel(blue, red, data);

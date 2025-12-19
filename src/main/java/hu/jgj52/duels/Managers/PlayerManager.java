@@ -37,16 +37,12 @@ public class PlayerManager {
         player.teleport(spawn);
     }
 
-    private static final Map<Player, PlayerD> cache = new HashMap<>();
+    public static final Map<Player, PlayerD> cache = new HashMap<>();
 
     public static PlayerD get(Player player) {
         return cache.computeIfAbsent(
                 player,
                 PlayerD::new
         );
-    }
-
-    public static void remove(Player player) {
-        cache.remove(player);
     }
 }

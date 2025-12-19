@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.persistence.PersistentDataType;
@@ -51,6 +52,13 @@ public class EditKitListener extends Replacer implements Listener {
                 player.closeInventory();
                 player.getInventory().clear();
             }
+        }
+    }
+
+    @EventHandler
+    public void onClose(InventoryCloseEvent event) {
+        if (event.getInventory().getHolder() instanceof EditKitGUI) {
+            event.getPlayer().getInventory().clear();
         }
     }
 }

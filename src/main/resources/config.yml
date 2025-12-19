@@ -1,5 +1,6 @@
 defaultRounds: 1
 defaultSpectators: true
+duelRequestExpire: 60 # time in seconds
 spawn:
   x: 0.5
   y: 0

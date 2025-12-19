@@ -5,7 +5,6 @@ import hu.jgj52.duels.Managers.MessageManager;
 import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Types.Kit;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -32,7 +31,7 @@ public class EditKitCommand extends MessageManager implements CommandExecutor, T
             player.sendMessage(getMessage("noArgs"));
             return true;
         }
-        if (RuntimeVariables.duels.contains(player)) {
+        if (player.isInDuel()) {
             player.sendMessage(getMessage("youAreInDuel"));
             return true;
         }

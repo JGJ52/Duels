@@ -17,7 +17,7 @@ import static hu.jgj52.duels.Duels.plugin;
 
 public class DuelEndHandler extends Replacer {
     public static boolean duelEnd(PlayerD player) {
-        if (!player.isInDuel()) {
+        if (player.isInDuel()) {
             Team team = new Team(List.of());
             Team enemy = new Team(List.of());
             String color = "";

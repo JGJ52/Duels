@@ -4,7 +4,6 @@ import hu.jgj52.duels.Handlers.DuelRequestHandler;
 import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Map;
 
 public class DuelCommand extends Replacer implements CommandExecutor, TabCompleter {
     @Override
@@ -48,7 +46,7 @@ public class DuelCommand extends Replacer implements CommandExecutor, TabComplet
             return true;
         }
 
-        if (RuntimeVariables.sentDuelRequests.get(Map.of(player, enemy)) != null) {
+        if (player.duelRequest(enemy) != null) {
             player.sendMessage(playerName(getMessage("alreadySentDuelRequest"), enemy));
             return true;
         }

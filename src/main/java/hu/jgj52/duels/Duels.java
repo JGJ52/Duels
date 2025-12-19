@@ -3,9 +3,11 @@ package hu.jgj52.duels;
 import hu.jgj52.duels.Commands.*;
 import hu.jgj52.duels.Listeners.*;
 import hu.jgj52.duels.Managers.ArenaManager;
+import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -46,10 +48,13 @@ public final class Duels extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Map<PlayerD, PlayerD> key : RuntimeVariables.sentDuelRequests.keySet()) {
-                    Map<String, Object> duelData = RuntimeVariables.sentDuelRequests.get(key);
-                    if (Long.parseLong(duelData.get("expire").toString()) < System.currentTimeMillis()) {
-                        RuntimeVariables.sentDuelRequests.remove(key);
+                for (Player key : PlayerManager.cache.keySet()) {
+                    PlayerD player = PlayerManager.get(key);
+                    for (PlayerD p : player.duelRequests().keySet()) {
+                        Map<String, Object> duelData = player.duelRequest(p);
+                        if (Long.parseLong(duelData.get("expire").toString()) < System.currentTimeMillis()) {
+                            player.duelRequest(p, Map.of());
+                        }
                     }
                 }
             }
