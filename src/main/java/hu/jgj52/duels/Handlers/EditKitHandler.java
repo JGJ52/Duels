@@ -18,7 +18,7 @@ import static hu.jgj52.duels.Duels.plugin;
 public class EditKitHandler extends Replacer {
     public static boolean handle(PlayerD player, Kit kit) {
         PlayerInventory inventory = player.getInventory();
-        inventory.setContents(kit.getContents(player));
+        inventory.setContents(kit.getContents());
         for (int i = 0; i < 42; i++) {
             ItemStack item = inventory.getItem(i);
             if (item == null) continue;

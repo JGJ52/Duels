@@ -75,7 +75,7 @@ public class DuelRequestHandler extends Replacer {
         spectateMeta.setDisplayName(getMessage("duelRequestGui.spectatorsName"));
         spectate.setItemMeta(spectateMeta);
 
-        gui.setItem(49, spectate);
+        //gui.setItem(49, spectate);
 
         player.openInventory(gui);
         Sound.open(player);

@@ -13,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
@@ -41,9 +42,12 @@ public class EditKitListener extends Replacer implements Listener {
                 for (int i = 0; i < 42; i++) {
                     ItemStack item = inventory.getItem(i);
                     if (item == null) continue;
-                    Integer defaultI = item.getItemMeta().getPersistentDataContainer().get(new NamespacedKey(plugin, "defaultSlot"), PersistentDataType.INTEGER);
+                    ItemMeta meta = item.getItemMeta();
+                    Integer defaultI = meta.getPersistentDataContainer().get(new NamespacedKey(plugin, "defaultSlot"), PersistentDataType.INTEGER);
                     if (defaultI == null) return;
                     items.put(defaultI, i);
+                    meta.getPersistentDataContainer().remove(new NamespacedKey(plugin, "defaultSlot"));
+                    item.setItemMeta(meta);
                 }
                 plugin.getConfig().set("data.kits." + ((EditKitGUI) event.getClickedInventory().getHolder()).getKit().getId() + ".players." + player.getUniqueId(), items);
                 plugin.saveConfig();

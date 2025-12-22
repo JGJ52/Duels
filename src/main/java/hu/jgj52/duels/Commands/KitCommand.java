@@ -97,7 +97,7 @@ public class KitCommand extends Replacer implements CommandExecutor, TabComplete
                     if (player.hasPermission("duels.command.kit.load")) {
                         if (args.length > 1) {
                             Kit kit = new Kit(args[1]);
-                            player.getInventory().setContents(kit.getContents());
+                            player.getInventory().setContents(kit.getContents(player));
                             player.sendMessage(value(getMessage("kit.loaded"), kit.getName()));
                         } else player.sendMessage(getMessage("noArgs"));
                     } else player.sendMessage(getMessage("noPerm"));

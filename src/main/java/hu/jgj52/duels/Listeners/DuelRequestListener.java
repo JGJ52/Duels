@@ -47,7 +47,7 @@ public class DuelRequestListener extends Replacer implements Listener {
                 plugin.saveConfig();
                 plugin.reloadConfig();
                 return;
-            }
+            }/*
             if (event.getSlot() == 49) {
                 ItemStack spectate = event.getClickedInventory().getItem(49);
                 if (spectate == null) return;
@@ -61,7 +61,7 @@ public class DuelRequestListener extends Replacer implements Listener {
                 plugin.saveConfig();
                 plugin.reloadConfig();
                 return;
-            }
+            }*/
             DuelRequestHandler.sendDuelRequest(player, enemy, event);
         }
     }
