@@ -5,6 +5,7 @@ import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
 import hu.jgj52.duels.Utils.RuntimeVariables;
+import hu.jgj52.duels.Utils.Sound;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -50,6 +51,7 @@ public class QueueHandler extends Replacer {
         }
 
         player.openInventory(gui);
+        Sound.open(player);
 
         return true;
     }

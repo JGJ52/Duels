@@ -5,7 +5,6 @@ import hu.jgj52.duels.Listeners.*;
 import hu.jgj52.duels.Managers.ArenaManager;
 import hu.jgj52.duels.Managers.PlayerManager;
 import hu.jgj52.duels.Types.PlayerD;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;

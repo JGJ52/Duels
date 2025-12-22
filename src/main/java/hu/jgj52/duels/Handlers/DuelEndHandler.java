@@ -55,12 +55,12 @@ public class DuelEndHandler extends Replacer {
                         players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
                     }
-                    player.isInDuel(false);
+                    players.isInDuel(false);
                 }
                 for (PlayerD players : enemy.getPlayers()) {
                     players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                     PlayerManager.tpToSpawn(players);
-                    player.isInDuel(false);
+                    players.isInDuel(false);
                 }
                 return true;
             }
@@ -81,12 +81,12 @@ public class DuelEndHandler extends Replacer {
                     for (PlayerD players : team.getPlayers()) {
                         players.sendTitle(getMessage("youLost"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
-                        player.isInDuel(false);
+                        players.isInDuel(false);
                     }
                     for (PlayerD players : enemy.getPlayers()) {
                         players.sendTitle(getMessage("youWon"), "", 0, 20, 0);
                         PlayerManager.tpToSpawn(players);
-                        player.isInDuel(false);
+                        players.isInDuel(false);
                     }
                 }
             } else {
