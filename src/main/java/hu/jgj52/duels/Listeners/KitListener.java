@@ -126,7 +126,7 @@ public class KitListener extends Replacer implements Listener {
                     if (((KitCreaterGUI) event.getClickedInventory().getHolder()).getArenas() == null || ((KitCreaterGUI) event.getClickedInventory().getHolder()).getArenas().isEmpty())
                         return;
                     List<Integer> arenaList = new ArrayList<>();
-                    int index = 0;
+                    int index = 1;
                     for (ItemStack item : ((KitCreaterGUI) event.getClickedInventory().getHolder()).getArenas()) {
                         if (item.getItemMeta().hasEnchantmentGlintOverride()) {
                             arenaList.add(index);
