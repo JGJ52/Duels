@@ -32,6 +32,7 @@ public final class Duels extends JavaPlugin {
         getCommand("forfeit").setExecutor(new ForfeitCommand());
         getCommand("leave").setExecutor(new LeaveCommand());
         getCommand("queue").setExecutor(new QueueCommand());
+        getCommand("spectate").setExecutor(new SpectateCommand());
 
         getServer().getPluginManager().registerEvents(new DuelRequestListener(), this);
         getServer().getPluginManager().registerEvents(new KitListener(), this);
@@ -40,6 +41,7 @@ public final class Duels extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EditKitListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new QueueListener(), this);
+        getServer().getPluginManager().registerEvents(new SpectatorListener(), this);
 
         ArenaManager arenaManager = new ArenaManager();
         Bukkit.getScheduler().runTask(plugin, arenaManager::recreateWorld);

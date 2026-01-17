@@ -78,7 +78,7 @@ public class AcceptDuelHandler extends Replacer {
             duelData.put("blue", blue);
             duelData.put("red", red);
             duelData.put("kit", kit);
-            duelData.put("spectators", /*duelDetails.get("spectators")*/false);
+            duelData.put("spectators", duelDetails.get("spectators"));
             duelData.put("rounds", duelDetails.get("rounds"));
             RuntimeVariables.duels.add(duelData);
             new BukkitRunnable() {

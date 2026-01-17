@@ -28,34 +28,41 @@ public class LeaveCommand extends MessageManager implements CommandExecutor, Tab
         }
         PlayerD player = PlayerManager.get(bukkitPlayer);
 
-        if (!player.isInDuel()) return true;
+        if (player.isInDuel()) {
+            Team team = new Team(List.of());
+            Map<String, Object> data = new HashMap<>();
+            Iterator<Map<String, Object>> iterator = RuntimeVariables.duels.iterator();
+            while (iterator.hasNext()) {
+                Map<String, Object> duel = iterator.next();
+                Team blue = (Team) duel.get("blue");
+                Team red = (Team) duel.get("red");
 
-        Team team = new Team(List.of());
-        Map<String, Object> data = new HashMap<>();
-        Iterator<Map<String, Object>> iterator = RuntimeVariables.duels.iterator();
-        while (iterator.hasNext()) {
-            Map<String, Object> duel = iterator.next();
-            Team blue = (Team) duel.get("blue");
-            Team red = (Team) duel.get("red");
+                if (blue.getPlayers().contains(player)) {
+                    team = blue;
+                    iterator.remove();
+                    data = duel;
+                    break;
+                }
 
-            if (blue.getPlayers().contains(player)) {
-                team = blue;
-                iterator.remove();
-                data = duel;
-                break;
+                if (red.getPlayers().contains(player)) {
+                    team = red;
+                    iterator.remove();
+                    data = duel;
+                    break;
+                }
             }
+            team.removePlayer(player);
+            RuntimeVariables.duels.add(data);
 
-            if (red.getPlayers().contains(player)) {
-                team = red;
-                iterator.remove();
-                data = duel;
-                break;
-            }
+            return DuelEndHandler.duelEnd(player);
         }
-        team.removePlayer(player);
-        RuntimeVariables.duels.add(data);
 
-        return DuelEndHandler.duelEnd(player);
+        if (player.spectating() != null) {
+            PlayerManager.tpToSpawn(player);
+            player.spectating(false);
+        }
+
+        return true;
     }
 
     @Override

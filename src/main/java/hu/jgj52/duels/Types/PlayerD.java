@@ -16,6 +16,7 @@ import java.util.*;
 
 public class PlayerD {
     private boolean isInDuel;
+    private PlayerD spectating;
     private final Map<PlayerD, Map<String, Object>> duelRequests = new HashMap<>();
     private final Player player;
 
@@ -29,6 +30,18 @@ public class PlayerD {
 
     public void isInDuel(Boolean is) {
         isInDuel = is;
+    }
+
+    public PlayerD spectating() {
+        return spectating;
+    }
+
+    public void spectating(PlayerD player) {
+        spectating = player;
+    }
+
+    public void spectating(Boolean is) {
+        if (!is) spectating = null;
     }
 
     public Map<String, Object> duelRequest(PlayerD enemy) {

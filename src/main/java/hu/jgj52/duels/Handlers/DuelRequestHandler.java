@@ -4,7 +4,6 @@ import hu.jgj52.duels.GUIs.DuelRequestGUI;
 import hu.jgj52.duels.Types.Kit;
 import hu.jgj52.duels.Types.PlayerD;
 import hu.jgj52.duels.Utils.Replacer;
-import hu.jgj52.duels.Utils.RuntimeVariables;
 import hu.jgj52.duels.Utils.Sound;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -75,7 +74,7 @@ public class DuelRequestHandler extends Replacer {
         spectateMeta.setDisplayName(getMessage("duelRequestGui.spectatorsName"));
         spectate.setItemMeta(spectateMeta);
 
-        //gui.setItem(49, spectate);
+        gui.setItem(49, spectate);
 
         player.openInventory(gui);
         Sound.open(player);

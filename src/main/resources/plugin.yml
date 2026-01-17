@@ -23,3 +23,6 @@ commands:
     permission: duels.command.leave
   queue:
     permission: duels.command.queue
+  spectate:
+    permission: duels.command.spectate
+    aliases: [spec]

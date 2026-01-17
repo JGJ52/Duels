@@ -1,4 +1,5 @@
 defaultRounds: 1
+defaultSpectators: true
 duelRequestExpire: 60 # time in seconds
 spawn:
   x: 0.5
@@ -91,6 +92,9 @@ languages:
     enteredQueue: "§aSuccessfully entered to queue!"
     queueKitIconLore: "§a%value% §fplayer is in queue" # value = number of players who are playing
     alreadyInQueue: "§cYou are already in the queue!"
+    targetIsNotInDuel: "§c%player_name% is not in a duel!"
+    youAreAlreadySpectating: "§cYou are already spectating %player_name%!"
+    spectatorsNotAllowed: "§c%player_name% disabled spectators!"
 data:
   kits: {}
   players: {}
